@@ -1,0 +1,1840 @@
+[INFO] Loaded C:\Users\Masaya\Documents\01_Design\02_CFD\build\header.tex from C:\Users\Masaya\Documents\01_Design\02_CFD\build\header.tex
+[INFO] Running filter pandoc-crossref
+[INFO] Completed filter pandoc-crossref in 0 ms
+[INFO] Running filter citeproc
+[INFO] Loaded acta-astronautica.csl from acta-astronautica.csl
+[INFO] Fetching http://www.zotero.org/styles/elsevier-with-titles...
+[INFO] Loaded refs.bib from ..\refs.bib
+[INFO] Completed filter citeproc in 15 ms
+[INFO] Loaded img/Turbulant_boundary_layer.png from ..\img/Turbulant_boundary_layer.png
+[INFO] Loaded img/Law_of_wall.png from ..\img/Law_of_wall.png
+[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-0fd45026f16f5116\img\Law_of_wall.png...
+[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-0fd45026f16f5116\img\Turbulant_boundary_layer.png...
+[INFO] Not rendering RawBlock (Format "openxml") "<w:tcPr><w:vAlign w:val=\"center\"/></w:tcPr>"
+[INFO] [makePDF] Temp dir:
+  C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116
+[INFO] [makePDF] Command line:
+  lualatex "-halt-on-error" "-interaction" "nonstopmode" "-output-directory" "C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116" "C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.tex"
+[INFO] [makePDF] Relevant environment variables:
+  ("TEXINPUTS","C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116;")
+  ("TEXMFOUTPUT","C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116")
+  ("USERPROFILE","C:\\Users\\Masaya")
+[INFO] [makePDF] Source:
+  % Options for packages loaded elsewhere
+  \PassOptionsToPackage{unicode}{hyperref}
+  \PassOptionsToPackage{hyphens}{url}
+  \documentclass[
+  ]{ltjsarticle}
+  \usepackage{xcolor}
+  \usepackage{amsmath,amssymb}
+  \setcounter{secnumdepth}{5}
+  \usepackage{iftex}
+  \ifPDFTeX
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{textcomp} % provide euro and other symbols
+  \else % if luatex or xetex
+    \usepackage{unicode-math} % this also loads fontspec
+    \defaultfontfeatures{Scale=MatchLowercase}
+    \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \fi
+  \usepackage{lmodern}
+  \ifPDFTeX\else
+    % xetex/luatex font selection
+  \fi
+  % Use upquote if available, for straight quotes in verbatim environments
+  \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+  \IfFileExists{microtype.sty}{% use microtype if available
+    \usepackage[]{microtype}
+    \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+  }{}
+  \makeatletter
+  \@ifundefined{KOMAClassName}{% if non-KOMA class
+    \IfFileExists{parskip.sty}{%
+      \usepackage{parskip}
+    }{% else
+      \setlength{\parindent}{0pt}
+      \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+  }{% if KOMA class
+    \KOMAoptions{parskip=half}}
+  \makeatother
+  \usepackage{longtable,booktabs,array}
+  \newcounter{none} % for unnumbered tables
+  \usepackage{calc} % for calculating minipage widths
+  % Correct order of tables after \paragraph or \subparagraph
+  \usepackage{etoolbox}
+  \makeatletter
+  \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+  \makeatother
+  % Allow footnotes in longtable head/foot
+  \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+  \makesavenoteenv{longtable}
+  \usepackage{graphicx}
+  \makeatletter
+  \newsavebox\pandoc@box
+  \newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+    \sbox\pandoc@box{#1}%
+    \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+    \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+    \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+    \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+    \else\usebox{\pandoc@box}%
+    \fi%
+  }
+  % Set default figure placement to htbp
+  \def\fps@figure{htbp}
+  \makeatother
+  \setlength{\emergencystretch}{3em} % prevent overfull lines
+  \providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+  \usepackage{luatexja}
+  \usepackage{luatexja-fontspec}
+  \setmainjfont{Meiryo}
+  \setmainfont{TeX Gyre Termes}
+  
+  \usepackage[version=3]{mhchem}
+  \usepackage{amsmath,amssymb}
+  \usepackage{caption}
+  \captionsetup{font=small,labelfont=bf}
+  \usepackage{graphicx}
+  
+  \usepackage[
+    top=10mm,
+    bottom=15mm,
+    left=20mm,
+    right=20mm
+  ]{geometry}
+  \usepackage{bookmark}
+  \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+  \urlstyle{same}
+  \hypersetup{
+    pdftitle={Important Formulas for CFD},
+    hidelinks,
+    pdfcreator={LaTeX via pandoc}}
+  
+  \title{Important Formulas for CFD}
+  \author{Masaya MUROHARA}
+  \date{Updated date: 2026-03-17}
+  
+  \begin{document}
+  \maketitle
+  
+  {
+  \setcounter{tocdepth}{3}
+  \tableofcontents
+  }
+  \section{テイラー展開}\label{ux30c6ux30a4ux30e9ux30fcux5c55ux958b}
+  
+  無限微分可能な関数\(f(x)\)について，
+  
+  \begin{equation}\protect\phantomsection\label{eq:Taylor_expansion}{
+  \begin{aligned}
+  f(x) &= f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \cdots + \frac{f^{(n)}(a)}{n!}(x-a)^n + \cdots\\
+  &= \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+  \end{aligned}
+  }\end{equation}
+  
+  を\(f(x)\)の\(x=a\)のテイラー展開という．特に\(a=0\)としたものをマクローリン展開という．ここで，テイラー展開の証明には踏み込まない．重要なことは，ある連続関数\(f(x)\)\footnote{本来はある関数が連続かどうかは証明が必要だが，工学分野で利用する関数は連続である，または暗黙的に連続の範囲のみを扱うことが多い．}を多項式で近似的に離散化（Discrerization）できることである．テイラー展開はあくまで関数の近似であり，何次の項で打ち切るかで打ち切り誤差が生れる．
+  
+  例えば2次まで展開をするとき
+  
+  \begin{equation}\protect\phantomsection\label{eq:Taylor_expansion_3rd}{
+  f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + O(x^3)
+  }\end{equation}
+  
+  と記述し，\(O(x^3)\)は剰余項である．ここが打切り誤差となる．高次展開には当然ながらメリットデメリットがある．一般には2次精度程度でよいらしい．というのも，一般的には打切り誤差よりもメッシュの切り方や物理モデルが誤差の支配要因であることが多いためである．
+  
+  \begin{itemize}
+  \tightlist
+  \item
+    高次展開のメリット
+  
+    \begin{itemize}
+    \tightlist
+    \item
+      剰余項の誤差（Truncation
+      error）が小さくなり，スキームの空間・時間精度が向上する．
+    \item
+      すくないメッシュ数で精度を保てる
+    \item
+      渦，境界層などの構造を保ちやすい
+    \end{itemize}
+  \item
+    高次展開のデメリット
+  
+    \begin{itemize}
+    \tightlist
+    \item
+      数値振動が起きやすく，物理現象を正しく反映できないことがある．この対策としてTVD，WENOなどの制限器を使用する場合がある．
+    \item
+      計算コスト上昇により計算時間やメモリが増加する．
+    \item
+      計算安定のためのCFL条件が厳しくなることがある．
+    \end{itemize}
+  \end{itemize}
+  
+  数値計算のモデルなどでよく使う形式は，例えば微小要素の中のある物理量\(f(t)\)が時刻\(\Delta t\)後に\(f(t+\Delta t)\)になるような場合である．この時，テイラー展開すれば
+  
+  \begin{equation}\protect\phantomsection\label{eq:Typical_Taylor_expansion_CFD}{
+  \begin{aligned}
+  f(t+\Delta t) &= f(t) + \Delta t\, f'(t) + \frac{(\Delta t)^2}{2!} f''(t) + \frac{(\Delta t)^3}{3!} f^{(3)}(t) + \cdots\\
+  &\approx f(t) + \frac{\partial f}{\partial t} \Delta t + \frac{1}{2} \frac{\partial^2 f}{\partial t^2} (\Delta t)^2 + O(t^3)
+  \end{aligned}
+  }\end{equation}
+  
+  とかける．2次以降の項を打ち切り，\(f(t+\Delta t) \approx f(t) + \frac{\partial f}{\partial t} \Delta t\)とすることがもっぱらである．
+  
+  \section{グリッド独立性調査}\label{ux30b0ux30eaux30c3ux30c9ux72ecux7acbux6027ux8abfux67fb}
+  
+  数値計算をするうえで，適切なメッシュサイズ（＝グリッドサイズ）であることを示す必要がある．メッシュが粗すぎれば誤差が大きくなり，メッシュが細かすぎれば計算リソースを不必要に割くことになる．一般的にはメッシュサイズを変えながら，ある固定した位置での物理量を比較し，変化が十分に小さいことを確認する．物理量としてはその流れを代表できるものが望ましい．例えばポワズイユ流れであれば解析解として得られる出口中心部の流速が候補にあがる．
+  
+  定量的な判定のために，まずは細分化比\(r\)を定義する．3つのノード数を用意し，細かいほうから\(N_1\),\(N_2\),\(N_3\)とする．ここで，\(N_1/N_2 = N_2/N_3\)とする．このとき細分化比は
+  
+  \begin{equation}\protect\phantomsection\label{eq:Refinement_ratio}{
+  r = \left( \frac{N_1}{N_2} \right) ^{1/D}
+  }\end{equation}
+  
+  として定義される．ここで\(D\)は問題の次元であり，平面モデルであれば\(D=2\)，立体モデルであれば\(D=3\)となる．
+  
+  \subsection{リチャードソン外挿法}\label{ux30eaux30c1ux30e3ux30fcux30c9ux30bdux30f3ux5916ux633fux6cd5}
+  
+  2次精度スキームの時，推定誤差はターゲット変数\(f\)を用いて
+  
+  \begin{equation}\protect\phantomsection\label{eq:Error_Richardson}{
+  \varepsilon = \frac{f_1 - f_2}{r^2 - 1}
+  }\end{equation}
+  
+  である．この推定誤差が許容範囲にあるかを判断基準とする．例えば\(\varepsilon < 0.01\)など．これを満たしたとき，その計算はグリッドから独立していると判定できる．
+  
+  \subsection{漸近的収束}\label{ux6f38ux8fd1ux7684ux53ceux675f}
+  
+  解が漸近領域にあるかどうかを確認する．収束指標として
+  
+  \begin{equation}\protect\phantomsection\label{eq:index_asymptotic_range}{
+  \frac{f_2 - f_3}{f_1 - f_2} \approx r^p
+  }\end{equation}
+  
+  を定義する．この値が一定になるようなノード数の組み合わせで解が漸近領域に入っていると判断できる．漸近領域の中で最も粗いメッシュサイズが最適メッシュサイズとして採用される．
+  
+  \section{乱流モデル}\label{ux4e71ux6d41ux30e2ux30c7ux30eb}
+  
+  \subsection{乱流の概要とRANS方程式}\label{ux4e71ux6d41ux306eux6982ux8981ux3068ransux65b9ux7a0bux5f0f}
+  
+  層流は時間変動が規則的で，決定論的に解くことができる．一方で乱流は不規則な時間変動項が存在し，NS方程式で直接解くことは現実的ではない．層流と乱流の違いは一般に\(Re\)数で整理される．流体の密度\(\rho\)，粘性係数\(\mu\)，代表速度\(u\)，代表長さ\(l\)を用いて
+  
+  \begin{equation}\protect\phantomsection\label{eq:def_Re}{
+  Re = \frac{\rho u l}{\mu}
+  }\end{equation}
+  
+  と定義される．これは慣性力と粘性力の比考えることができる．\(Re\)数は層流と乱流の状態の目安を与えるが，条件ごとに大きく変動する．例えば円管流れでは\(Re=2000 \sim 4000\)程度で乱流に遷移する．
+  
+  乱流の特徴は不規則な変動をする渦である．渦は層流でも存在するが，層流の場合は粘性の効果により渦が規則的になり，ある渦サイズで平衡状態になる．一方乱流の場合はエネルギーカスケードと呼ばれる作用により，乱流エネルギーが大きな渦から小さな渦へと伝達され，最初に生成された大きな渦は最終的にコロモゴフスケールと呼ばれる最小サイズまで小さくなり，熱として散逸する．最初の最大の渦サイズは流れの代表長さ\(l\)に制限され，最小の渦のスケール（散逸領域のスケール＝コロモゴフスケール）\(\eta\)は
+  
+  \begin{equation}\protect\phantomsection\label{eq:Kolmogoh_scale}{
+  \eta/l \sim Re^{(-3/4)}
+  }\end{equation}
+  
+  と表される．乱流をNS方程式で直接解く（DNS）場合，コロモゴフスケールまで空間を表現する必要があるため，メッシュがかなり小さくなる．合わせて時間刻みも小さくする必要があるため，実用上不可能なレベルの計算リソースを割くことになってしまう．そのため，乱流ではある物理量\(f\)を時間平均値\(\bar{f}\)と時間変動値\(f'\)に分けるレイノルズ分解によって\(f = \bar{f}+f'\)として扱う．この分解を
+  Navier–Stokes
+  方程式に代入すると，時間平均流れに対する方程式が得られるが，新たにレイノルズ応力項
+  \(\overline{u'_i u'_j}\)
+  が現れる．この項は未知量を増やす\footnote{これをレイノルズ応力は運動量を輸送するという意味で応力のように振る舞うため「見かけの応力」とも呼ばれる．このレイノルズ応力は未知数であるため，式の数と合わなくなり，式が閉じない．さらにレイノルズ応力についての方程式を作ったとしても，高次の相関項が現れ，やはり式は閉じない．これを乱流のクロージャー問題という．クロージャー問題を解決するため，レイノルズ応力をモデル化した乱流モデルが考案され広く用いられる．}ため，追加のモデルによって近似する必要がある．このようにして平均流れを求める手法が
+  Reynolds Averaged
+  Navier–Stokes（RANS）方程式である．この近似のためにBoussinesq仮定や渦粘性などおいた様々なモデルが提案されており，代表的なものに\(\kappa - \epsilon\)モデルや\(\kappa - \omega\)モデルなどがある．
+  
+  \subsection{壁法則}\label{ux58c1ux6cd5ux5247}
+  
+  乱流を RANS
+  方程式で解く際，特に壁近傍の取り扱いには注意が必要である．これは RANS
+  特有の問題というよりも，空間離散化を伴う数値流体解析において一般的に現れる問題である．壁面では
+  no-slip
+  条件により速度がゼロであり，壁から離れるにしたがって速度は急激に増加する．すなわち壁近傍では速度勾配が非常に大きくなる．そのため境界層内部の流れを正確に解くためには極めて細かいメッシュが必要となる．さらに乱流境界層では，壁近傍において粘性の影響と乱流の影響が同時に強く現れるため，乱流モデルの適用が難しい領域となる．このため実用的な乱流解析では，壁近傍の流れを直接解く代わりに，実験的・理論的に知られている平均速度分布を用いてモデル化することが多い．これを壁法則と呼ぶ．
+  
+  Fig.~\ref{fig:Turbulant_boundary_layer}に乱流における境界層の発達の模式図を示す．境界層のうち，壁からの影響が無視できない領域を内層とよび，自由流になっている領域を外層と呼ぶ．壁法則は内層に対して有効である．内層のうち，特に壁面近傍で分子粘性の影響が大きい領域を粘性低層（viscous
+  sublayer），渦粘性の影響が大きい領域を対数領域（log-law
+  layer）と呼び，両者の間の遷移領域を緩和層（buffer layer）と呼ぶ．
+  
+  \begin{figure}
+  \centering
+  \pandocbounded{\includegraphics[keepaspectratio,alt={Bounday layer of a turbulant flow}]{C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Turbulant_boundary_layer.png}}
+  \caption{Bounday layer of a turbulant
+  flow}\label{fig:Turbulant_boundary_layer}
+  \end{figure}
+  
+  壁法則を考えるにあたって，まずは壁面摩擦速度\(u_{\tau}\)を以下の通り定義する．
+  
+  \begin{equation}\protect\phantomsection\label{eq:wall_friction_velocity}{
+  u_{\tau} = \sqrt{ \frac{\tau_{\mathrm{w}}}{\rho}}, \quad \tau_{\mathrm{w}} = \mu \left( \frac{\partial u}{\partial y} \right)_{\mathrm{wall}}
+  }\end{equation}
+  
+  これは物理的な速度というよりは，壁面せん断応力の強さだとか，壁面近傍における乱流のスケールという理解をしたほうがよい．このスケールを用いて，距離と速度を無次元化した\(y^+\)と\(u^+\)を定義する．すなわち，
+  
+  \begin{equation}\protect\phantomsection\label{eq:yplus}{
+  y^+ = \frac{u_{\tau} y}{\nu}
+  }\end{equation}
+  
+  \begin{equation}\protect\phantomsection\label{eq:uplus}{
+  u^+ = \frac{\bar{u}}{u_{\tau}}
+  }\end{equation}
+  
+  ただし，\(\nu\)は動粘性係数である．さて，この二つの無次元数を用いてプロットすれば，Fig.~\ref{fig:Law_of_wall}のようになることが知られている．このうち，粘性低層は理論的に導かれ，\(y^+<5\)で有効である．また，対数領域は実験的事実から経験的に求められる関係式であり，\(y^+ \approx 30 - 300\)程度で有効である．両者の間の緩和層は理論的にも実験的にも普遍的なモデルが得られていない．そのため，実際の計算では\(y^+\)が粘性低層または対数領域になるように壁面近傍のメッシュをきる．一般に流れだけを確認したい場合，例えば車や飛行機周りの流れ場などでは対数領域を用いればよい．粘性低層までメッシュを小さくすれば計算コストが増大するからである．一方，壁面からの熱伝達など壁近傍の物理が重要である場合は粘性低層までメッシュを切る必要がある．いずれにしても，CFDの第一層が緩和層に係らないようにすることが重要である．
+  
+  \begin{figure}
+  \centering
+  \pandocbounded{\includegraphics[keepaspectratio,alt={Law of wall}]{C:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Law_of_wall.png}}
+  \caption{Law of wall}\label{fig:Law_of_wall}
+  \end{figure}
+  
+  \end{document}
+[INFO] [makePDF] LaTeX run number 1
+[INFO] [makePDF] LaTeX output
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.tex
+  LaTeX2e <2025-11-01>
+  L3 programming layer <2026-01-19>
+   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
+  Document Class: ltjsarticle 2025-05-26 ltjsclasses 
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/ctablestack/ctablestack.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+  (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/everyhook/everyhook.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/svn-prov/svn-prov.sty))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-base.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/tuenc.def))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-luatex.def)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifluatex.sty))))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty))
+  (c:/texlive/2025/texmf-dist/tex/platex/jsclasses/jslogo.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+  For additional information on amsmath, use the `?' option.
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fix-cm.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/ts1enc.def))
+  (c:/texlive/2025/texmf-dist/tex/lualatex/lualatex-math/lualatex-math.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-unicode-math.sty)
+   (c:/texlive/2025/texmf-dist/tex/latex/lm/lmodern.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/upquote/upquote.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype-luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  )) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-microtype.sty
+  
+  Package luatexja Warning: LuaTeX-ja's patch against the microtype package 
+  (luatexja)                (lltjp-microtype.sty, 2019-11-08) may not work.
+  
+  ) (c:/texlive/2025/texmf-dist/tex/latex/parskip/parskip.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty))
+  Couldn't patch \@startsection
+  ) (c:/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-29e.st
+  y)) (c:/texlive/2025/texmf-dist/tex/latex/mhchem/mhchem.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/chemgreek/chemgreek.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty)
+  
+  Package caption Warning: Unknown document class (or package),
+  (caption)                standard defaults will be used.
+  See the caption package documentation for explanation.
+  
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+  (c:/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hluatex.def
+  (c:/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+  (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
+  No file input.aux.
+  (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+  [Loading MPS to PDF converter (version 2006.09.02).]
+  ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+  (c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+  
+  Package microtype Warning: Unable to apply patch `footnote' on input line 97.
+  
+  *geometry* driver: auto-detecting
+  *geometry* detected driver: luatex
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+  No file input.toc.
+  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+  
+  LaTeX Warning: Reference `fig:Turbulant_boundary_layer' on page 3 undefined on 
+  input line 231.
+  
+  [3]
+  
+  LaTeX Warning: Reference `fig:Law_of_wall' on page 4 undefined on input line 25
+  8.
+  
+  [4<c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Turbulant_boun
+  dary_layer.png>] [5<c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/i
+  mg/Law_of_wall.png>]
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux)
+  
+  LaTeX Warning: There were undefined references.
+  
+  
+  LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+  
+  )
+   1867 words of node memory still in use:
+     11 hlist, 2 vlist, 5 rule, 1 local_par, 7 glue, 4 kern, 1 penalty, 1 margin_
+  kern, 3 glyph, 522 attribute, 63 glue_spec, 59 attribute_list, 1 write, 14 user
+  _defined nodes
+     avail lists: 1:23,2:63913,3:485,4:479,5:247,6:66,7:7130,8:75,9:3346,10:38,11
+  :33
+  <c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/public
+  /tex-gyre/texgyretermes-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/
+  public/tex-gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive
+  /2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025
+  /texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texl
+  ive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (5 pages, 499293 bytes).
+  Transcript written on input.log.
+[INFO] [makePDF] Rerun needed
+  LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+  TOC is present
+[INFO] [makePDF] LaTeX run number 2
+[INFO] [makePDF] LaTeX output
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.tex
+  LaTeX2e <2025-11-01>
+  L3 programming layer <2026-01-19>
+   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
+  Document Class: ltjsarticle 2025-05-26 ltjsclasses 
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/ctablestack/ctablestack.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+  (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/everyhook/everyhook.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/svn-prov/svn-prov.sty))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-base.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/tuenc.def))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-luatex.def)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifluatex.sty))))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty))
+  (c:/texlive/2025/texmf-dist/tex/platex/jsclasses/jslogo.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+  For additional information on amsmath, use the `?' option.
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fix-cm.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/ts1enc.def))
+  (c:/texlive/2025/texmf-dist/tex/lualatex/lualatex-math/lualatex-math.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-unicode-math.sty)
+   (c:/texlive/2025/texmf-dist/tex/latex/lm/lmodern.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/upquote/upquote.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype-luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  )) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-microtype.sty
+  
+  Package luatexja Warning: LuaTeX-ja's patch against the microtype package 
+  (luatexja)                (lltjp-microtype.sty, 2019-11-08) may not work.
+  
+  ) (c:/texlive/2025/texmf-dist/tex/latex/parskip/parskip.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty))
+  Couldn't patch \@startsection
+  ) (c:/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-29e.st
+  y)) (c:/texlive/2025/texmf-dist/tex/latex/mhchem/mhchem.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/chemgreek/chemgreek.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty)
+  
+  Package caption Warning: Unknown document class (or package),
+  (caption)                standard defaults will be used.
+  See the caption package documentation for explanation.
+  
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+  (c:/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hluatex.def
+  (c:/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+  (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux)
+  (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+  [Loading MPS to PDF converter (version 2006.09.02).]
+  ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+  (c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+  
+  Package microtype Warning: Unable to apply patch `footnote' on input line 97.
+  
+  *geometry* driver: auto-detecting
+  *geometry* detected driver: luatex
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4<c:/Users/Ma
+  saya/AppData/Local/Temp/media-0fd45026f16f5116/img/Turbulant_boundary_layer.png
+  >] [5<c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Law_of_wall
+  .png>] (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux)
+  
+  LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+  
+  )
+   1831 words of node memory still in use:
+     11 hlist, 2 vlist, 5 rule, 1 local_par, 6 glue, 4 kern, 1 penalty, 1 margin_
+  kern, 3 glyph, 511 attribute, 62 glue_spec, 58 attribute_list, 1 write, 14 user
+  _defined nodes
+     avail lists: 1:46,2:65231,3:511,4:499,5:258,6:82,7:7254,8:73,9:3359,10:38,11
+  :33
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
+  r.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/
+  public/tex-gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm/lmsans12-regular.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025
+  /texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2
+  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (5 pages, 502385 bytes).
+  Transcript written on input.log.
+[INFO] [makePDF] Rerun needed
+  LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+  TOC is present
+[INFO] [makePDF] LaTeX run number 3
+[INFO] [makePDF] LaTeX output
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.tex
+  LaTeX2e <2025-11-01>
+  L3 programming layer <2026-01-19>
+   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
+  Document Class: ltjsarticle 2025-05-26 ltjsclasses 
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/ctablestack/ctablestack.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+  (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/everyhook/everyhook.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/svn-prov/svn-prov.sty))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-base.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/tuenc.def))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-luatex.def)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifluatex.sty))))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty))
+  (c:/texlive/2025/texmf-dist/tex/platex/jsclasses/jslogo.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+  For additional information on amsmath, use the `?' option.
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fix-cm.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/ts1enc.def))
+  (c:/texlive/2025/texmf-dist/tex/lualatex/lualatex-math/lualatex-math.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-unicode-math.sty)
+   (c:/texlive/2025/texmf-dist/tex/latex/lm/lmodern.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/upquote/upquote.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype-luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  )) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-microtype.sty
+  
+  Package luatexja Warning: LuaTeX-ja's patch against the microtype package 
+  (luatexja)                (lltjp-microtype.sty, 2019-11-08) may not work.
+  
+  ) (c:/texlive/2025/texmf-dist/tex/latex/parskip/parskip.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty))
+  Couldn't patch \@startsection
+  ) (c:/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-29e.st
+  y)) (c:/texlive/2025/texmf-dist/tex/latex/mhchem/mhchem.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/chemgreek/chemgreek.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty)
+  
+  Package caption Warning: Unknown document class (or package),
+  (caption)                standard defaults will be used.
+  See the caption package documentation for explanation.
+  
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+  (c:/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hluatex.def
+  (c:/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+  (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux)
+  (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+  [Loading MPS to PDF converter (version 2006.09.02).]
+  ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+  (c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+  
+  Package microtype Warning: Unable to apply patch `footnote' on input line 97.
+  
+  *geometry* driver: auto-detecting
+  *geometry* detected driver: luatex
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4<c:/Users/Ma
+  saya/AppData/Local/Temp/media-0fd45026f16f5116/img/Turbulant_boundary_layer.png
+  >] [5<c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Law_of_wall
+  .png>] (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux))
+   1831 words of node memory still in use:
+     11 hlist, 2 vlist, 5 rule, 1 local_par, 6 glue, 4 kern, 1 penalty, 1 margin_
+  kern, 3 glyph, 511 attribute, 62 glue_spec, 58 attribute_list, 1 write, 14 user
+  _defined nodes
+     avail lists: 1:46,2:65231,3:511,4:499,5:258,6:82,7:7254,8:73,9:3359,10:38,11
+  :33
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
+  r.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/
+  public/tex-gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm/lmsans12-regular.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025
+  /texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2
+  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (5 pages, 502386 bytes).
+  Transcript written on input.log.
+[INFO] [makePDF] Rerun needed
+  TOC is present
+[INFO] [makePDF] LaTeX run number 4
+[INFO] [makePDF] LaTeX output
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.tex
+  LaTeX2e <2025-11-01>
+  L3 programming layer <2026-01-19>
+   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
+  Document Class: ltjsarticle 2025-05-26 ltjsclasses 
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/ctablestack/ctablestack.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+  (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+  (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/everyhook/everyhook.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/svn-prov/svn-prov.sty))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-base.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/tuenc.def))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-luatex.def)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifluatex.sty))))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty))
+  (c:/texlive/2025/texmf-dist/tex/platex/jsclasses/jslogo.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+  For additional information on amsmath, use the `?' option.
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/base/fix-cm.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/ts1enc.def))
+  (c:/texlive/2025/texmf-dist/tex/lualatex/lualatex-math/lualatex-math.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-unicode-math.sty)
+   (c:/texlive/2025/texmf-dist/tex/latex/lm/lmodern.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/upquote/upquote.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype-luatex.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basicmath' on input line 75.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `12\jsc@mpt '
+  (microtype)                in font set `basictext' on input line 82.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `9\jsc@mpt '
+  (microtype)                in font set `footnotesize' on input line 92.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `8\jsc@mpt '
+  (microtype)                in font set `scriptsize' on input line 97.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  
+  Package microtype Warning: Could not parse font size `10\jsc@mpt '
+  (microtype)                in font set `normalfont' on input line 100.
+  
+  )) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-microtype.sty
+  
+  Package luatexja Warning: LuaTeX-ja's patch against the microtype package 
+  (luatexja)                (lltjp-microtype.sty, 2019-11-08) may not work.
+  
+  ) (c:/texlive/2025/texmf-dist/tex/latex/parskip/parskip.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty))
+  Couldn't patch \@startsection
+  ) (c:/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/footnotehyper/footnotehyper.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-29e.st
+  y)) (c:/texlive/2025/texmf-dist/tex/latex/mhchem/mhchem.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/chemgreek/chemgreek.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty)
+  
+  Package caption Warning: Unknown document class (or package),
+  (caption)                standard defaults will be used.
+  See the caption package documentation for explanation.
+  
+  (c:/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+  (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+  (c:/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty)
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+  (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+  (c:/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hluatex.def
+  (c:/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+  (c:/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+  (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
+  (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
+  (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux)
+  (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+  [Loading MPS to PDF converter (version 2006.09.02).]
+  ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+  (c:/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+  
+  Package microtype Warning: Unable to apply patch `footnote' on input line 97.
+  
+  *geometry* driver: auto-detecting
+  *geometry* detected driver: luatex
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+  (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
+  (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4<c:/Users/Ma
+  saya/AppData/Local/Temp/media-0fd45026f16f5116/img/Turbulant_boundary_layer.png
+  >] [5<c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/img/Law_of_wall
+  .png>] (c:/Users/Masaya/AppData/Local/Temp/media-0fd45026f16f5116/input.aux))
+   1831 words of node memory still in use:
+     11 hlist, 2 vlist, 5 rule, 1 local_par, 6 glue, 4 kern, 1 penalty, 1 margin_
+  kern, 3 glyph, 511 attribute, 62 glue_spec, 58 attribute_list, 1 write, 14 user
+  _defined nodes
+     avail lists: 1:46,2:65231,3:511,4:499,5:258,6:82,7:7254,8:73,9:3359,10:38,11
+  :33
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
+  r.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/
+  public/tex-gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/openty
+  pe/public/lm/lmsans12-regular.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025
+  /texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2
+  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (5 pages, 502386 bytes).
+  Transcript written on input.log.

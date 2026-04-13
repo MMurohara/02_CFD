@@ -1,0 +1,7 @@
+[INFO] Running filter pandoc-crossref
+Undefined cross-reference: fig:ICOUPS_schematics
+[INFO] Completed filter pandoc-crossref in 15 ms
+[INFO] Running filter citeproc
+[INFO] Loaded acta-astronautica.csl from acta-astronautica.csl
+[INFO] Fetching http://www.zotero.org/styles/elsevier-with-titles...
+^C
