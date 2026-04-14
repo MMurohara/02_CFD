@@ -163,5 +163,9 @@ $${#eq:virtual_mass_force}
 
 ここで，$C_{\mathrm{VM}}$は仮想質量力係数であり，典型的に0.5が与えられる．ただし，この値はポテンシャル流れ中の固体球に対する理論解として得られたものである[@2018-nc]ことに注意する．そのため，気泡塔における気泡への適用においてはエトベス数により気泡が球状であることを確認したうえで$C_{\mathrm{VM}}=0.5$とするのが安全であろう．気泡形状が楕円または歪んでいるときの仮想質量力係数についてはさらなる調査が必要である．
 
+# Ansys Fluentの便利機能
+## Multiphase Case Check
+https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v252/en/flu_ug/flu_ug_sec_multiphase_casecheck.html
 
+Consoleに　/report/mphase-summary　と入力することで現在の計算設定に対しての推奨設定を出力してくれる．ただし，計算データが必要．summaryのあとに0, 1, 2のいずれかを入力することで詳細レベルを指定可能．
 
