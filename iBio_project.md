@@ -163,9 +163,17 @@ $${#eq:virtual_mass_force}
 
 ここで，$C_{\mathrm{VM}}$は仮想質量力係数であり，典型的に0.5が与えられる．ただし，この値はポテンシャル流れ中の固体球に対する理論解として得られたものである[@2018-nc]ことに注意する．そのため，気泡塔における気泡への適用においてはエトベス数により気泡が球状であることを確認したうえで$C_{\mathrm{VM}}=0.5$とするのが安全であろう．気泡形状が楕円または歪んでいるときの仮想質量力係数についてはさらなる調査が必要である．
 
-# Ansys Fluentの便利機能
-## Multiphase Case Check
-https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v252/en/flu_ug/flu_ug_sec_multiphase_casecheck.html
+# Ansys Fluentの注意点
+## 計算実行前に行うこと
+1. Run calculationの前にCheck Caseから今の設定での一般的な推奨設定を確認できる．推奨設定に従わなくても計算を回すことはできるが，特に知識が少ない現段階では基本的に従っておくことがよいだろう．また，物理的な不整合も指摘してくれる．
+2. Input summaryによってCaseファイルの設定を一覧で出力可能である．ただし，モデル内の詳細については出力できない様子．混相流に関してはConsoleに　/report/mphase-summary　と入力することで現在の計算設定に対しての推奨設定を出力してくれる．ただし，計算データが必要．summaryのあとに0, 1, 2のいずれかを入力することで詳細レベルを指定可能．
+3. Input summaryからModified Settings Summaryを確認できる．ファイルを開いた時点をDefaultとして，そこからの変更を見れる．Consoleの上に表示されるGraphicsの横のタブのModiffied Seetings Summaryに表示される．
 
-Consoleに　/report/mphase-summary　と入力することで現在の計算設定に対しての推奨設定を出力してくれる．ただし，計算データが必要．summaryのあとに0, 1, 2のいずれかを入力することで詳細レベルを指定可能．
+## 計算
+1. .dat.h5ファイルがあればその値を初期値として計算を実行することができる．混相流計算において，例えばinhomogeneous Eulerianは初期値に対して敏感なのでまずはhomogeneousのmixtureである程度計算を進めてからその値を初期値としてinhomogeneous Eulerianを実行することが推奨されている．
+
+
+
+
+
 
