@@ -68,9 +68,7 @@ $$
 {\omega_{\mathrm{OA}} - \omega_{\mathrm{RA}}}
 $${#eq:humid_exchange_eff}
 
-## 支配方程式
-
-### 水分の移動
+## 水分フラックスの$\omega$による表示
 本解析で最も重要になるのは膜を通過する水分のモデル化である．これから説明するモデルは2001年にJ.L. NiuおよびL.Z. Zhangによって構築され[@Niu2001-es]，その後2025年の最新論文[@Liu2025-mz]に至るまで採用されている．本モデルにおいて，空気中の絶対湿度$\omega$，空気中の相対湿度$\phi$および膜中の絶対湿度$\theta$の三つの水分表示が出てくる．それぞれの定義式は以下のとおりである．
 
 $$
@@ -109,85 +107,122 @@ $$
 $${#eq:omega_to_Y}
 
 ここで[@eq:phi_to_omega]式の第二項は5%以下であり，一般に無視される[@Niu2001-es]．
-上記3つの変数を用いてモデル化を行い，最終的には$\omega$のみで表現することを目指す．これは膜の性能評価にあたって一般に$\omega$が用いられるためである．ただし注意点としてFluentなどの数値計算においては一般に構成化学種ごとの質量比$Y$が用いられることが多い．したがって，まず$\omega$で整理したモデル化を行い，その後Fluentに対応付けるために$Y$を用いた形式に変換する．ある質量$m_{\mathrm{moist}}$の湿り空気がある時，乾燥空気質量$m_$
-
+ここまでに水分の表現が全部で4つ出てきた．全熱交換の分野では慣習として$\omega$を用いて表すことが多い．一方で数値計算分野においては$Y$を用いることが多い．したがって，本章ではまず$\omega$表記でのモデル化を行い，その後Fluentに対応付けるために$Y$を用いた形式に変換する．
 モデル化にあたって，以下を仮定する．
 1. 流れ平面方向の水分子の移動は無視する．これは参考文献[@Niu2001-es]の計算結果による．運転条件によってはこの過程が崩れることもあるため，Pe数が2以上であることを確認すること．
 2. 膜の吸湿は平衡状態である．
 3. 膜における水分の拡散係数$D_{\mathrm{wm}}$は定数である．
 4. 吸湿，脱湿時の吸熱・放熱は定数であり，両者等しい値である．
 
-空気中における水分の移動は吸気側，排気側に関わらずフィックの法則で表される．すなわち
+まず膜の吸湿は平衡状態であることから，供給側空気から膜へのフラックス$j_{\mathrm{s}}$，膜内でのフラックス$j_{\mathrm{m}}$および膜から排気側空気へのフラックス$j_{\mathrm{e}}$は等しい．すなわち
 
 $$
-j = \rho_{\mathrm{a}} k \frac{\partial \omega}{\partial z}
+j_{\mathrm{s}} + j_{\mathrm{m}}= j_{\mathrm{m}} + j_{\mathrm{e}} = j_{\mathrm{s}} + j_{\mathrm{e}} = 0
+$${#eq:flux_equ}
+
+である．ここで，フラックスの単位は$[\mathrm{kg \; m^2 \; s^{-1}}]$である．空気中における水分フラックス$j_{\mathrm{s}}$および$j_{\mathrm{e}}$は吸気側，排気側に関わらずフィックの法則で表される．すなわち
+
+$$
+j_{\mathrm{s}} =j_{\mathrm{e}} = - \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z}
 $${#eq:fick_law}
 
-である．
-
-まず外気から流入してくる供給空気の湿度が$\omega_{\mathrm{sa}}$であり，全熱交換エレメントを通過する際に膜表面における空気中の吸湿量が$\omega_{\mathrm{ms}}$である状態を考える．ここで添え字saはsupplied airであり，msはmambrane surface at supply sideを示している．このとき，水分の移動は空気内の現象である．供給空気での水分の対流拡散係数を$k_{\mathrm{s}}$とすれば，熱拡散のアナロジーから水分のフラックスは以下の式で表される．ただし，$k$の単位は$[\mathrm{m\; s^{-1}}]$である．
-
-$$
-j_{\mathrm{s}} = \rho_{\mathrm{sa}} k_{\mathrm{sa}} \left(\omega_{\mathrm{sa}} - \omega_{\mathrm{ms}} \right)
-$${#eq:vapor_flux_at_supply}
-
-膜を挟んで反対側，すなわち排気側においても同様の議論により
-
-$$
-j_{\mathrm{e}} = -\rho_{\mathrm{ha}} k_{\mathrm{ea}} \left(\omega_{\mathrm{ea}} - \omega_{\mathrm{me}} \right)
-$${#eq:vapor_flux_at_exh}
-となる．
-次に膜内の水分のフラックスを考える．これを考えるにあたって，膜表面の空気の吸湿量が既知のとき，膜表面に平衡状態まで水分が吸着した場合，膜表面に吸着する水分量はどれだけになるだろうか．この吸湿量$\theta_{\mathrm{ms}}$は膜材料に強く依存し，実験的に求める必要がある．例えばVapor absorption analyzer - Hydrosorb-1000[@Zhang2008-sa]などの分析器を用いる．この分析により，sorption curveを取得する．この曲線は横軸に相対湿度$\phi$をとり，縦軸に膜の絶対湿度$\theta$をとる．この曲線は以下の式により結び付けられる．
+である．ここで，$D$は$\omega$に対する拡散係数[$\mathrm{m^2 \; s^{-1}}$]であり，後述の$Y$への変換では異なる値になることに注意する．
+次に膜内のフラックス$j_{\mathrm{m}}$を考える．これを考えるにあたって，膜近傍空気の$\omega$と膜表面の$\theta$との関係を求める必要がある．この$\theta$は膜材料特性や湿度に強く依存し，実験的に求める必要がある．例えばVapor absorption analyzer - Hydrosorb-1000[@Zhang2008-sa]などの分析器を用いる．この分析により，sorption curve（吸着等温線）を取得する．sorption cuveは横軸に相対湿度$\phi$をとり，縦軸に膜の絶対湿度$\theta$をとり，以下の式で表現される．
 
 $$
 \theta = \frac{w_{\mathrm{max}}}
 {1-C+C/\phi}
 $${#eq:sorption_curve}
 
-$C$が主に膜や吸湿材のタイプを示す変数である．例えばもっともよく使用されるシリカゲルは$C \approx 1$であり，ポリマー材料は$C \approx 10$程度を示す．$C$ごとのsorption curveを[@fig:POL_sorption_curve]に示す．
+ここで，$w_{\mathrm{max}}$は$\phi$が100\%の時の$\theta$である．$C$が主に膜や吸湿材のタイプを示す変数である．例えばもっともよく使用されるシリカゲルは$C \approx 1$であり，ポリマー材料は$C \approx 10$程度を示す．$C$ごとのsorption curveを[@fig:POL_sorption_curve]に示す．
 
 ![Sorption curves with representative $C$ numbers.](img/POL_sorption_curve.png){#fig:POL_sorption_curve}
 
-このsorption curveを実験的に求めることで膜表面における絶対湿度がわかった．この水分が膜中を拡散するとき，膜の拡散係数を$D_{\mathrm{wm}}$とすれば，膜内の水分のフラックスは
+このsorption curveを実験的に求めることで膜表面における$\theta$がわかった．この水分が膜中を拡散するとき，膜の拡散係数を$D_{\mathrm{m}} \; [\mathrm{m^2 \; s^{-1}}]$とすれば，膜内の水分のフラックスは
 
 $$
-j_{\mathrm{m}} = \frac{\rho_{\mathrm{m}} D_{\mathrm{wm}}}{\delta} \left(\theta_{\mathrm{ms}} - \theta_{\mathrm{me}} \right)
+j_{\mathrm{m}} = - \rho_{\mathrm{m}} D_{\mathrm{m}}\frac{\partial \theta}{\partial z}
 $${#eq:vapor_flux_in_membrane}
-としてあらわされる．ただし，添え字meはmembrane surface at exhaust sideである．また，拡散係数$D_{\mathrm{wm}}$は$k$と単位が異なることに注意する．すなわち$[\mathrm{m^2 \; s^{-1}}]$である．例えば紙の拡散係数は約$6 \times 10^{-12} \; \mathrm{m^2 \; s^{-1}}$である．この式を$\omega$を用いてあらわす．
-膜の厚みも考慮した膜抵抗$r_{\mathrm{m}}$を
+
+としてあらわされる．例えば紙の拡散係数は約$6 \times 10^{-12} \; \mathrm{m^2 \; s^{-1}}$である．この式は$\theta$で表記されているため，$\omega$に変換する必要がある．変換のため，膜の厚みも考慮した膜抵抗$r_{\mathrm{m}}$を
 
 $$
-r_{\mathrm{m}} =\frac{\rho_{\mathrm{a}}}{\rho_{\mathrm{m}}} \frac{\delta}{D_{\mathrm{wm}}} \psi
+r_{\mathrm{m}} =\frac{\rho_{\mathrm{a}}}{\rho_{\mathrm{m}}} \frac{\delta}{D_{\mathrm{m}}} \psi
 $${#eq:moisture_resistance}
 
 $$
 \psi = \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1}
 $${#eq:CMDR}
-として表す．$\rho_{\mathrm{m}}D_{\mathrm{wm}}$をまとめて透湿係数$K [\mathrm{kg \; m^{-1} \; s^{-1}}]$として扱うこともある．詳細は参考文献[@Niu2001-es]を参照のこと．ここで$\psi$はcoefficient of moisture diffusive resistanceと呼ばれる．式[@eq:phi_to_omega]を用いればこのCMDRは
+
+として表す．$\rho_{\mathrm{m}}D_{\mathrm{m}}$をまとめて透湿係数$K [\mathrm{kg \; m^{-1} \; s^{-1}}]$として扱うこともある．詳細は参考文献[@Niu2001-es]を参照のこと．ここで$\psi$はcoefficient of moisture diffusive resistanceと呼ばれる．式[@eq:phi_to_omega]を用いればこのCMDRは
 
 $$
 \begin{align}
 \psi &= \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1} \\
   &=  \left( A \frac{\partial \theta}{\partial \omega} \frac{\partial \omega}{\partial \phi} \right) ^{-1} \\
-  &= \left( \frac{\partial \theta}{\partial \omega} \right)^{-1} \\
-  & \approx \frac{\Delta \omega}{\Delta \theta}
+  &= \left( \frac{\partial \theta}{\partial \omega} \right)^{-1}
 \end{align}
 $${#eq:CMDR_rev}
-と変形できる．すなわち，膜内の水分のフラックスは
+
+と変形できる．すなわち，膜内の水分フラックスは式[@eq:vapor_flux_in_membrane]，[@eq:moisture_resistance]，[@eq:CMDR_rev]を用いて
 
 $$
-j_{\mathrm{m}} = \frac{\rho_{\mathrm{a}}}{r_{\mathrm{m}}} \left(\omega_{\mathrm{ms}} - \omega_{\mathrm{me}} \right)
+j_{\mathrm{m}} = -\frac{\rho_{\mathrm{a}} \delta }{r_{\mathrm{m}}}\frac{\partial \omega}{\partial z}
 $${#eq:vapor_flux_in_membrane_rev}
 となる．
-
-ここまでで，式[@eq:vapor_flux_at_supply]，[@eq:vapor_flux_at_exh]，および[@eq:vapor_flux_in_membrane_rev]により，供給側空気から膜へ，膜内部から膜外部へ，膜から排気側空気への水分フラックスがあらわされた．平衡状態の仮定から
+以上，式[@eq:flux_eq]，[@eq:fick_law]，および[@eq:vapor_flux_in_membrane_rev]により，供給側空気から膜へ，膜内部から膜外部へ，膜から排気側空気への水分フラックスのすべてがあらわされた．改めて書き直すと
 
 $$
-j_{\mathrm{s}}=j_{\mathrm{m}}= j_{\mathrm{e}} 
-$${#eq:flux_equ}
+- \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z} - \frac{\rho_{\mathrm{a}} \delta }{r_{\mathrm{m}}}\frac{\partial \omega}{\partial z} = 0
+$${#eq:flux_conservation}
+である．
 
-が成立する．
+式[@eq:flux_equ]および式[@eq:flux_conservation]を離散化したうえで解くことで，膜表面の$\omega$を空気の$\omega$のみで表すことができる．離散化のため，以下の添え字を定義する．
+* as: air at supply flow
+* ms: membrane surface at supply side
+* me: membrane surface at exhaust side
+* ae: air at exhaust flow
+また，膜表面から隣接空間セル中心までの距離を$\Delta z$，膜厚さを$\delta$とする．これにより
 
+$$
+j_{\mathrm{s}} = - \rho_{\mathrm{as}} D_{\mathrm{as}}
+\frac{\omega_{\mathrm{ms}}-\omega_{\mathrm{as}}}{\Delta z_{\mathrm{s}}}
+$${#eq:diff_flux_supply}
+
+$$
+j_{\mathrm{m}} = - \frac{\rho_{\mathrm{as}} \delta }{r_{\mathrm{m}}}
+\frac{\omega_{\mathrm{me}}-\omega_{\mathrm{ms}}}{\delta}
+$${#eq:diff_flux_membrane}
+
+$$
+j_{\mathrm{e}} = - \rho_{\mathrm{ae}} D_{\mathrm{ae}}
+\frac{\omega_{\mathrm{ae}}-\omega_{\mathrm{me}}}{\Delta z_{\mathrm{e}}}
+$${#eq:diff_flux_exhaust}
+
+である．$j_{\mathrm{s}} + j_{\mathrm{e}} = 0$，$j_{\mathrm{s}} + j_{\mathrm{m}} = 0$を解けば
+
+$$
+\omega_{\mathrm{me}} = \omega_{\mathrm{ae}} + \alpha \left( 
+  \omega_{\mathrm{as}} - \omega_{\mathrm{ms}}
+\right)\\
+\alpha = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D_{\mathrm{as}}}{D_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
+$${#eq:omega_me}
+
+および
+
+$$
+\omega_{\mathrm{ms}} =\frac{
+  \beta \omega_{\mathrm{ae}} + (\alpha \beta  + 1)\omega_{\mathrm{as}}
+}{
+  \alpha + \alpha \beta + 1
+}\\
+\beta = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D_{\mathrm{m}}}{D_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
+$${#eq:omega_ms}
+
+を得る．この2式により膜表面の$\omega$がそれぞれ空気の$\omega$で表すことができる．ここまでに出てきた変数のうち，物性値として定数とおけるものは各密度$\rho$および各拡散係数$D$である．
+
+### 水分フラックスの$Y$による表示
+式[@eq:flux_conservation]で得られた式を$Y$に書き直す．
 
 ## 膜の性能評価について
 
