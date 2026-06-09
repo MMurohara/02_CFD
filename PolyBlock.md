@@ -127,8 +127,7 @@ $$
 j_{\mathrm{s}} =j_{\mathrm{e}} = - \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z}
 $${#eq:fick_law}
 
-である．ここで，$D$は$\omega$に対する拡散係数[$\mathrm{m^2 \; s^{-1}}$]であり，後述の$Y$への変換では異なる値になることに注意する．
-次に膜内のフラックス$j_{\mathrm{m}}$を考える．これを考えるにあたって，膜近傍空気の$\omega$と膜表面の$\theta$との関係を求める必要がある．この$\theta$は膜材料特性や湿度に強く依存し，実験的に求める必要がある．例えばVapor absorption analyzer - Hydrosorb-1000[@Zhang2008-sa]などの分析器を用いる．この分析により，sorption curve（吸着等温線）を取得する．sorption cuveは横軸に相対湿度$\phi$をとり，縦軸に膜の絶対湿度$\theta$をとり，以下の式で表現される．
+である．ここで，$D$は$\omega$に対する拡散係数[$\mathrm{m^2 \; s^{-1}}$]であり，後述の$Y$への変換では異なる値になることに注意する．次に膜内のフラックス$j_{\mathrm{m}}$を考える．これを考えるにあたって，膜近傍空気の$\omega$と膜表面の$\theta$との関係を求める必要がある．この$\theta$は膜材料特性や湿度に強く依存し，実験的に求める必要がある．例えばVapor absorption analyzer - Hydrosorb-1000[@Zhang2008-sa]などの分析器を用いる．この分析により，sorption curve（吸着等温線）を取得する．sorption cuveは横軸に相対湿度$\phi$をとり，縦軸に膜の絶対湿度$\theta$をとり，以下の式で表現される．
 
 $$
 \theta = \frac{w_{\mathrm{max}}}
@@ -242,7 +241,7 @@ $${#eq:fick_law_in_Y_rev}
 が得られる．すなわち，質量比$Y$基準と絶対湿度$\omega$基準の拡散係数では補正がかかることに注意する．この補正は一般に数\%程度になる．この拡散係数$D'$を用いて式[@eq:omega_me]および[@eq:omega_ms]を書き換えれば
 
 $$
-Y_{\mathrm{me}} = Y_{\mathrm{ae}} + \alpha \left( 
+Y_{\mathrm{me}} = Y_{\mathrm{ae}} + \alpha' \left( 
   Y_{\mathrm{as}} - Y_{\mathrm{ms}}
 \right)\\
 \alpha' = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D'_{\mathrm{as}}}{D'_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
@@ -252,14 +251,19 @@ $${#eq:Y_me}
 
 $$
 Y_{\mathrm{ms}} =\frac{
-  \beta Y_{\mathrm{ae}} + (\alpha \beta  + 1)Y_{\mathrm{as}}
+  \beta' Y_{\mathrm{ae}} + (\alpha' \beta'  + 1)Y_{\mathrm{as}}
 }{
-  \beta + \alpha \beta + 1
+  \beta' + \alpha' \beta' + 1
 }\\
 \beta' = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D'_{\mathrm{m}}}{D'_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
 $${#eq:Y_ms}
 
-を得る．ここまで，$\omega$を出発点として話を進めてきたが，一般的にはここでの$D'$が物理拡散係数のデータとして与えられていると考えるべきである．そのうえで$\omega$などに変換する必要があれば，都度微分係数を変換していくことになる．
+を得る．ここまで，$\omega$を出発点として話を進めてきたが，一般的にはここでの$D'$が物理拡散係数のデータとして与えられていると考えるべきである．そのうえで$\omega$などに変換する必要があれば，都度微分係数を変換していくことになる．空気中の拡散係数$D'$は空気の温度と圧力の関数として表されることが知られている．すなわち
+
+$$
+D'_{} = 1.87 \times 10^{-10} \frac{T^{2.072}}{p_{\mathrm{tot}}}
+$${#eq:D'_in_air}
+である．
 
 ## 膜の性能評価について
 上記理論からモデル化のために測定が必要な物理量は以下のとおりである．
