@@ -42,9 +42,6 @@ FormFlex HXは変形が起きないために設計が簡略化される．特に
   * 製造コストの上昇を現行比で20%以内に抑えること
 * システム設計のためのメタモデルの構築
 
-# 全熱交換器一般
-## quasi-counter flow
-
 # 理論
 ## 交換効率
 顕熱は温度交換効率，潜熱は湿度交換効率によって定義される．[@fig:POL_flow_schematics]のように各流れを定義する．ただし，各略語は以下の通りである．
@@ -64,7 +61,7 @@ $$
 $${#eq:temperature_exchange_eff}
 
 $$
-\eta_{\mathrm{h}} = \frac{\omega_{\mathrm{OA}} - \omega_{\mathrm{SA}}}
+\eta_{\mathrm{\omega}} = \frac{\omega_{\mathrm{OA}} - \omega_{\mathrm{SA}}}
 {\omega_{\mathrm{OA}} - \omega_{\mathrm{RA}}}
 $${#eq:humid_exchange_eff}
 
@@ -107,20 +104,24 @@ $$
 $${#eq:omega_to_Y}
 
 ここで[@eq:phi_to_omega]式の第二項は5%以下であり，一般に無視される[@Niu2001-es]．
-ここまでに水分の表現が全部で4つ出てきた．全熱交換の分野では慣習として$\omega$を用いて表すことが多い．一方で数値計算分野においては$Y$を用いることが多い．したがって，本章ではまず$\omega$表記でのモデル化を行い，その後Fluentに対応付けるために$Y$を用いた形式に変換する．
+ここまでに水分の表現が全部で4つ出てきた．全熱交換の分野では慣習として$\omega$を用いて表すことが多い．一方で数値計算分野においては$Y$を用いることが多い．2013年時点で「多孔質中の水分移動についてうまく計算できない．そのため，研究者ごとにコードを自作したり，UDFでFluentを回している．」という記述がみられる[@Al-Waked2013-nv]．Fluentにおいて多孔質における流体領域は当時でも水蒸気移動（単なる移流拡散）は標準サポートされていたようなので，多孔質材のうち固体部分で吸着・拡散する水蒸気の取り扱いの話をしていると考えられる．[@Liu2025-mz]においても，2024R1のバージョンでも膜内での質量移動モデルを取り扱っておらず，UDFを用いたとの記述がある．したがって，本章ではまず$\omega$表記でのモデル化を行い，その後Fluentに対応付けるために$Y$を用いた形式に変換する．
 モデル化にあたって，以下を仮定する．
+
 1. 流れ平面方向の水分子の移動は無視する．これは参考文献[@Niu2001-es]の計算結果による．運転条件によってはこの過程が崩れることもあるため，Pe数が2以上であることを確認すること．
+
 2. 膜の吸湿は平衡状態である．
-3. 膜における水分の拡散係数$D_{\mathrm{wm}}$は定数である．
+
+3. 膜における水分の拡散係数$D_{\mathrm{m}}$は定数である．
+
 4. 吸湿，脱湿時の吸熱・放熱は定数であり，両者等しい値である．
 
 まず膜の吸湿は平衡状態であることから，供給側空気から膜へのフラックス$j_{\mathrm{s}}$，膜内でのフラックス$j_{\mathrm{m}}$および膜から排気側空気へのフラックス$j_{\mathrm{e}}$は等しい．すなわち
 
 $$
-j_{\mathrm{s}} + j_{\mathrm{m}}= j_{\mathrm{m}} + j_{\mathrm{e}} = j_{\mathrm{s}} + j_{\mathrm{e}} = 0
+j_{\mathrm{s}} = j_{\mathrm{m}} = j_{\mathrm{e}}
 $${#eq:flux_equ}
 
-である．ここで，フラックスの単位は$[\mathrm{kg \; m^2 \; s^{-1}}]$である．空気中における水分フラックス$j_{\mathrm{s}}$および$j_{\mathrm{e}}$は吸気側，排気側に関わらずフィックの法則で表される．すなわち
+である．ここで，フラックスの単位は$[\mathrm{kg \; m^{-2} \; s^{-1}}]$である．空気中における水分フラックス$j_{\mathrm{s}}$および$j_{\mathrm{e}}$は吸気側，排気側に関わらずフィックの法則で表される．すなわち
 
 $$
 j_{\mathrm{s}} =j_{\mathrm{e}} = - \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z}
@@ -154,14 +155,14 @@ $$
 \psi = \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1}
 $${#eq:CMDR}
 
-として表す．$\rho_{\mathrm{m}}D_{\mathrm{m}}$をまとめて透湿係数$K [\mathrm{kg \; m^{-1} \; s^{-1}}]$として扱うこともある．詳細は参考文献[@Niu2001-es]を参照のこと．ここで$\psi$はcoefficient of moisture diffusive resistanceと呼ばれる．式[@eq:phi_to_omega]を用いればこのCMDRは
+として表す．ただし，ここでの$A$や$\phi$は供給空気側の値を用いる．$\rho_{\mathrm{m}}D_{\mathrm{m}}$をまとめて透湿係数$K [\mathrm{kg \; m^{-1} \; s^{-1}}]$として扱うこともある．詳細は参考文献[@Niu2001-es]を参照のこと．ここで$\psi$はcoefficient of moisture diffusive resistanceと呼ばれる．式[@eq:phi_to_omega]を用いればこのCMDRは
 
 $$
-\begin{align}
+\begin{aligned}
 \psi &= \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1} \\
   &=  \left( A \frac{\partial \theta}{\partial \omega} \frac{\partial \omega}{\partial \phi} \right) ^{-1} \\
   &= \left( \frac{\partial \theta}{\partial \omega} \right)^{-1}
-\end{align}
+\end{aligned}
 $${#eq:CMDR_rev}
 
 と変形できる．すなわち，膜内の水分フラックスは式[@eq:vapor_flux_in_membrane]，[@eq:moisture_resistance]，[@eq:CMDR_rev]を用いて
@@ -170,18 +171,18 @@ $$
 j_{\mathrm{m}} = -\frac{\rho_{\mathrm{a}} \delta }{r_{\mathrm{m}}}\frac{\partial \omega}{\partial z}
 $${#eq:vapor_flux_in_membrane_rev}
 となる．
-以上，式[@eq:flux_eq]，[@eq:fick_law]，および[@eq:vapor_flux_in_membrane_rev]により，供給側空気から膜へ，膜内部から膜外部へ，膜から排気側空気への水分フラックスのすべてがあらわされた．改めて書き直すと
+以上，式[@eq:flux_equ]，[@eq:fick_law]，および[@eq:vapor_flux_in_membrane_rev]により，供給側空気から膜へ，膜内部から膜外部へ，膜から排気側空気への水分フラックスのすべてがあらわされた．
 
-$$
-- \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z} - \frac{\rho_{\mathrm{a}} \delta }{r_{\mathrm{m}}}\frac{\partial \omega}{\partial z} = 0
-$${#eq:flux_conservation}
-である．
+[@eq:flux_equ]を離散化したうえで解くことで，$\omega_{\mathrm{m}}$を空気の$\omega_{\mathrm{a}}$のみで表すことができる．離散化のため，以下の添え字を定義する．
 
-式[@eq:flux_equ]および式[@eq:flux_conservation]を離散化したうえで解くことで，膜表面の$\omega$を空気の$\omega$のみで表すことができる．離散化のため，以下の添え字を定義する．
 * as: air at supply flow
+
 * ms: membrane surface at supply side
+
 * me: membrane surface at exhaust side
+
 * ae: air at exhaust flow
+
 また，膜表面から隣接空間セル中心までの距離を$\Delta z$，膜厚さを$\delta$とする．これにより
 
 $$
@@ -214,52 +215,65 @@ $$
 \omega_{\mathrm{ms}} =\frac{
   \beta \omega_{\mathrm{ae}} + (\alpha \beta  + 1)\omega_{\mathrm{as}}
 }{
-  \alpha + \alpha \beta + 1
+  \beta + \alpha \beta + 1
 }\\
 \beta = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D_{\mathrm{m}}}{D_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
 $${#eq:omega_ms}
 
-を得る．この2式により膜表面の$\omega$がそれぞれ空気の$\omega$で表すことができる．ここまでに出てきた変数のうち，物性値として定数とおけるものは各密度$\rho$および各拡散係数$D$である．
+を得る．この2式により膜表面の$\omega$がそれぞれ空気の$\omega$で表すことができる．
 
 ### 水分フラックスの$Y$による表示
-式[@eq:flux_conservation]で得られた式を$Y$に書き直す．
+ここまでに出てきた変数のうち，物性値として定数とおけるものは各密度$\rho$および各拡散係数$D$である．このうち，Fluentで保持されている拡散係数のデータは質量分率勾配を基準としたものである．ここまで，熱交換器分野の慣習に従って$\omega$を用いてフィックの法則を表していたが，これをFluentに対応する形に書き換えれば
+
+$$
+\begin{aligned}
+j &= - \rho D \frac{\partial \omega}{\partial z}\\
+  &= - \rho D \frac{\partial Y}{\partial z} \frac{\partial \omega}{\partial Y}\\
+  &= - \rho \frac{D}{(1-Y)^2} \frac{\partial Y}{\partial z}
+\end{aligned}
+$${#eq:fick_law_in_Y}
+と書き換えられる．そこで$Y$基準での拡散係数を$D'$とすれば,$D' = D / (1-Y)^2$を用いて
+
+$$
+\begin{aligned}
+j = - \rho D' \frac{\partial Y}{\partial z}
+\end{aligned}
+$${#eq:fick_law_in_Y_rev}
+が得られる．すなわち，質量比$Y$基準と絶対湿度$\omega$基準の拡散係数では補正がかかることに注意する．この補正は一般に数\%程度になる．この拡散係数$D'$を用いて式[@eq:omega_me]および[@eq:omega_ms]を書き換えれば
+
+$$
+Y_{\mathrm{me}} = Y_{\mathrm{ae}} + \alpha \left( 
+  Y_{\mathrm{as}} - Y_{\mathrm{ms}}
+\right)\\
+\alpha' = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D'_{\mathrm{as}}}{D'_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
+$${#eq:Y_me}
+
+および
+
+$$
+Y_{\mathrm{ms}} =\frac{
+  \beta Y_{\mathrm{ae}} + (\alpha \beta  + 1)Y_{\mathrm{as}}
+}{
+  \beta + \alpha \beta + 1
+}\\
+\beta' = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D'_{\mathrm{m}}}{D'_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
+$${#eq:Y_ms}
+
+を得る．ここまで，$\omega$を出発点として話を進めてきたが，一般的にはここでの$D'$が物理拡散係数のデータとして与えられていると考えるべきである．そのうえで$\omega$などに変換する必要があれば，都度微分係数を変換していくことになる．
 
 ## 膜の性能評価について
+上記理論からモデル化のために測定が必要な物理量は以下のとおりである．
 
-# Fluentを用いた数値解析方法
-## 多孔質中の水分移動
-2013年時点で「多孔質中の水分移動についてうまく計算できない．そのため，研究者ごとにコードを自作したり，UDFでFluentを回している．」という記述がみられる[@Al-Waked2013-nv]．Fluentにおいて多孔質における流体領域は当時でも水蒸気移動（単なる移流拡散）は標準サポートされていたようなので，多孔質材のうち固体部分で吸着・拡散する水蒸気の取り扱いの話をしていると考えられる．[@Liu2025-mz]においても，2024R1のバージョンでも膜内での質量移動モデルを取り扱っておらず，UDFを用いたとの記述がある．
+1. Sorption curve: 膜近傍空気の相対湿度$\phi$と膜内吸湿量$\theta$を結ぶ最重要な曲線．本曲線における温度や圧力の影響は調査が必要だが，$\phi$に温度依存性がある以上，WP1で定義される運転条件ごとに曲線を取得することが望ましい．
 
+2. 膜内水分拡散係数$D'_\mathrm{m}$：一般に拡散係数は温度や含水量の関数であるが，定数として扱われることが多い．温度や含水量の影響については調査が必要である．測定において$D'_{\mathrm{m}}$単体の測定が難しい場合，膜全体としての透湿性能を測定するのでも十分である．これはおそらく測定方法によるが，$r_{\mathrm{m}}$，$r'_{\mathrm{m}}$，$\rho_{\mathrm{m}} D_{\mathrm{m}}$，$\rho_{\mathrm{m}} D'_{\mathrm{m}}$のいずれかに対応するものである．
 
-## 膜内の熱・物質移動
-膜は厚みが大きくても100μm程度であり，十分に薄い．膜内の熱・物質移動は等方的と仮定すれば，膜厚が非常に薄いため厚み方向一次元に簡略化される．すなわち，膜内温度$T_{\mathrm{m}}$と膜内水濃度$Y_{\mathrm{v,m}}$について
+3. 膜厚$\delta$：$\delta$は$r_{\mathrm{m}}$に一次の影響を与えるため，この誤差がそのまま膜抵抗の誤差としてのることになる．$\delta$は一般に10μm程度のオーダーであり，厳密な測定が必要となる．また，乾燥時と吸湿時でどの程度変化するかを確認する．
 
-$$
-\frac{\partial^2 T_{\mathrm{m}}}{\partial z^2} = 0
-$${#eq:one_dim_temperature}
+4. 膜密度$\rho_{\mathrm{m}}$：乾燥状態の見かけ密度を測定する．見かけ密度は空隙も含んだ値であり，素材そのものの質量よりも小さくなる．これに素材そのものの密度を考慮することで空隙率も得ることができる．
 
-$$
-\frac{\partial^2 Y_{\mathrm{v, m}}}{\partial z^2} = 0
-$${#eq:one_dim_vapor_concentration}
+5. 熱伝導率$k_{\mathrm{m}}$：膜の顕熱移動を表す熱伝導率を測定する．ただし，この測定の重要性は低い．総括熱抵抗は空気から膜への熱伝達率とこの熱伝導率の両者を考慮されるが，一般に膜熱伝導率が総括熱抵抗に与える影響は小さく，例えば紙から金属などに変更したとしても5\%程度しか改善されないとされている．そのため，膜間の顕熱交換で支配的な要素は熱伝達率であり，熱伝導率は補助的である[@undated-uj]．
 
-である．
-
-## 膜表面での熱・物質移動
-低温側・高温側の膜表面における水濃度$Y_{\mathrm{v, mc}}$および$Y_{\mathrm{v, mh}}$はそれぞれ
-
-$$
-Y_{\mathrm{v, mc}} = Y_{\mathrm{v, cs}} + a_1 \left( 
-  Y_{\mathrm{v, hs}} - Y_{\mathrm{v, mh}}
-\right)
-$${#eq:Y_v_mc}
-
-$$
-Y_{\mathrm{v, mh}} = \frac{
-  Y_{\mathrm{v, cs}} + \left( a_1 + a_2 \right) Y_{\mathrm{v, hs}}
-}
-{a_1 + a_2 + 1}
-$${#eq:Y_v_mh}
-として求められる．ただし，
 
 # スケジュール
 ## WP2：2026年6月1日から2026年11月30日まで

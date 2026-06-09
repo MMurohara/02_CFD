@@ -5,8 +5,8 @@ REM buildフォルダにいる前提。mdのある親フォルダへ
 pushd "%~dp0"
 set "ROOT=.."
 
-set "IN=%ROOT%\Important_Formulas_for_CFD.md"
-set "OUT=%ROOT%\Important_Formulas_for_CFD.pdf"
+set "IN=%ROOT%\PolyBlock.md"
+set "OUT=%ROOT%\PolyBlock.pdf"
 set "HEADER=%~dp0header.tex"
 set "LOG=%~dp0build.log"
 

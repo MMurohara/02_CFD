@@ -5,8 +5,8 @@ REM buildフォルダにいる前提。mdのある親フォルダへ
 pushd "%~dp0"
 set "ROOT=.."
 
-set "IN=%ROOT%\Plan-for-Bridge-Activity_ENG.md"
-set "OUT=%ROOT%\Plan-for-Bridge-Activity_ENG.pdf"
+set "IN=%ROOT%\PolyBlock_ENG.md"
+set "OUT=%ROOT%\PolyBlock_ENG.pdf"
 set "HEADER=%~dp0header.tex"
 set "LOG=%~dp0build.log"
 
