@@ -281,21 +281,25 @@ $${#eq:fick_law_in_Y_rev}
 が得られる．すなわち，質量比$Y$基準と絶対湿度$\omega$基準の拡散係数では補正がかかることに注意する．この補正は一般に数\%程度になる．この拡散係数$D'$を用いて式[@eq:omega_me]および[@eq:omega_ms]を書き換えれば
 
 $$
-Y_{\mathrm{me}} = Y_{\mathrm{ae}} + \alpha' \left( 
+\begin{aligned}
+Y_{\mathrm{me}} &= Y_{\mathrm{ae}} + \alpha' \left( 
   Y_{\mathrm{as}} - Y_{\mathrm{ms}}
 \right)\\
-\alpha' = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D'_{\mathrm{as}}}{D'_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
+\alpha' &= \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D'_{\mathrm{as}}}{D'_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
+\end{aligned}
 $${#eq:Y_me}
 
 および
 
 $$
-Y_{\mathrm{ms}} =\frac{
+\begin{aligned}
+Y_{\mathrm{ms}} &=\frac{
   \beta' Y_{\mathrm{ae}} + (\alpha' \beta'  + 1)Y_{\mathrm{as}}
 }{
   \beta' + \alpha' \beta' + 1
 }\\
-\beta' = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D'_{\mathrm{m}}}{D'_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
+\beta' &= \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D'_{\mathrm{m}}}{D'_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
+\end{aligned}
 $${#eq:Y_ms}
 
 を得る．ここまで，$\omega$を出発点として話を進めてきたが，一般的にはここでの$D'$が物理拡散係数のデータとして与えられていると考えるべきである．そのうえで$\omega$などに変換する必要があれば，都度微分係数を変換していくことになる．空気ー水蒸気系の二成分拡散係数はMarrero and Masonが経験式としてまとめている．すなわち
