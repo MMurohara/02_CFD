@@ -191,7 +191,11 @@ r_{\mathrm{m}} =\frac{\rho_{\mathrm{a}}}{\rho_{\mathrm{m}}} \frac{\delta}{D_{\ma
 $${#eq:moisture_resistance}
 
 $$
-\psi = \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1}
+\begin{aligned}
+\psi &= \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1}\\
+  &= \frac{\left( 1-C+C/\phi \right)^2 \phi^2}
+  {A w_{\mathrm{max}} C}
+\end{aligned}
 $${#eq:CMDR}
 
 として表す．ただし，ここでの$A$や$\phi$は供給空気側の値を用いる．$\rho_{\mathrm{m}}D_{\mathrm{m}}$をまとめて透湿係数$K [\mathrm{kg \; m^{-1} \; s^{-1}}]$として扱うこともある．詳細は参考文献[@Niu2001-es]を参照のこと．ここで$\psi$はcoefficient of moisture diffusive resistanceと呼ばれる．[@eq:phi_to_omega]を用いればこのCMDRは
@@ -365,6 +369,17 @@ $${eq:siedel_tate_eq}
 ## Fluentにおける注意点
 ### 膜近傍の刻み幅
 本モデルにおいて，膜近傍における熱と物質輸送が非常に重要であることは自明である．すなわち，膜近傍における温度・速度・濃度（または水蒸気質量分率）境界層を適切に解像しないと計算精度が悪化する．このことはLiu[@Liu2025-mz]らも述べており，膜が十分に薄いという条件において，少なくとも膜法線方向に膜厚以下に刻み幅をとることが推奨されている．
+
+### CMDRの計算
+UDFでCMDRを計算するにあたって，[@eq:CMDR]をそのままコーディングするとエラーの恐れがある．というのも，湿度が低い時，特に計算初期において$$\phi \approx 0$の場合，$C/\phi$が発散し，CMDRも発散してしまう．そこで式変形して
+
+
+$$
+\psi = \frac{\left( (1-C) \phi +C \right)^2}
+  {A w_{\mathrm{max}} C}
+$${#eq:CMDR_rev}
+
+とする．これにより発散の可能性を減らすことができる．加えて，初期状態では流体に湿度が定義されておらず，流入してくる湿気空気がドメイン全体に広がるまで収束を待つ必要がある．発散を防ぐという面でも，収束を早めるという面でも，初期条件として流体に流入条件と同様の温度と湿度をパッチすることが有効と考えられる．
 
 # スケジュール
 ## WP2：2026年6月1日から2026年11月30日まで
