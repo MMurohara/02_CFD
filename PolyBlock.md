@@ -404,3 +404,630 @@ WP2ではFormFlex HXを用いたプロトタイプを製作し，分析・測定
 
 # Polyblock AG社について
 1982年創業の熱交換器，エンタルピー交換器，排熱回収器などを扱うメーカー．Winterthurに拠点を置き，これらの機械及び関連部品の製造を行っている．対象はビル，病院，学校，集合住宅，向上などに向けた空調システムや排熱・CO2回収などである．最初はガレージ発のスタートアップらしい．現坐剤の従業員数は正確な値はわからないが数十人規模と推定される．
+
+# ここまでの作業メモ
+以下、**昨日から今日までの作業ログ兼・来週再開用メモ**として整理します。
+
+---
+
+# 膜式全熱交換器 Fluent UDF デバッグまとめ
+
+対象：水蒸気 mass flux UDF、全抵抗モデル、relaxation factor、収束安定化
+
+## 1. 最初の問題意識
+
+当初、膜境界で水蒸気移動をUDFで与えたところ、`continuity residual` が大きく跳ね、高温側・低温側の `Y_H2O` が非物理的に大きく変化した。
+
+特に、初期条件として
+
+```text
+hot side  : Y_H2O ≈ 0.0206
+cold side : Y_H2O ≈ 0.0117
+```
+
+を与えているにもかかわらず、計算後に
+
+```text
+Y_H2O = 0.1 以上
+```
+
+のような値が膜近傍で出た。
+
+まず疑ったことは、
+
+```text
+1. H2O mass fraction の入力ミス
+2. species mass flux の符号規約ミス
+3. psi / beta / y_mem の NaN
+4. dz が小さすぎることによる過大flux
+5. heat generationなしによるエネルギー不整合
+6. 離散化・pseudo time・初期流れ場の影響
+```
+
+だった。
+
+---
+
+## 2. 入力条件と物性値の確認
+
+温湿度条件から、空気中の水蒸気質量分率を再計算した。
+
+```text
+27°C, RH 54%  → Y_H2O ≈ 0.0119
+35°C, RH 59%  → Y_H2O ≈ 0.0206
+```
+
+したがって、hot側 `Y_H2O ≈ 0.02`、cold側 `Y_H2O ≈ 0.0117` は妥当。
+
+一時は `0.02` と入れるべきところを `0.2` と入力した可能性を疑ったが、確認したところ入力は正しく `0.02` だった。
+
+また、Operating Pressure は Fluent 側で
+
+```text
+Operating Pressure = 101325 Pa
+```
+
+になっていることを確認した。UDF内で
+
+```c
+C_P(c, t) + RP_Get_Real("operating-pressure")
+```
+
+として絶対圧に変換している方針は妥当。
+
+---
+
+## 3. species mass flux の符号規約
+
+GUIで `wall-28` と `wall-28-shadow` の mass flux 符号を確認した結果、当初想定していた
+
+```text
+positive = outward from fluid domain
+```
+
+ではなく、実際には boundary condition としては
+
+```text
+positive = into fluid domain
+```
+
+として扱う必要があると判断した。
+
+したがって、物理フラックスを
+
+```text
+j > 0 : hot → membrane → cold
+```
+
+と定義すると、Fluentに渡す値は、
+
+```text
+cold side wall-28        : +j
+hot side wall-28-shadow : -j
+```
+
+である。
+
+UDF内では現在、
+
+```c
+j_h = - (Y_h - Y_c) / R_tot;
+j_c =   (Y_h - Y_c) / R_tot;
+```
+
+としており、この符号は現在の理解では正しい。
+
+---
+
+## 4. NaN問題と psi の式変形
+
+初期のCSV出力で、一部faceにおいて
+
+```text
+y_mem_h = NaN
+y_mem_c = NaN
+psi     = NaN
+beta    = NaN
+```
+
+が発生した。
+
+原因は、相対湿度 `phi` がゼロ近傍になったとき、CMDR式の中に
+
+```text
+C / phi
+```
+
+のような項があり、`phi = 0` で発散していたこと。
+
+これを、
+
+```text
+(1 - C) * phi + C
+```
+
+の形に式変形し、分母に `phi` が来ない形にしたことで NaN は解消した。
+
+現在の CMDR は概ね以下：
+
+```c
+term = (1.0 - C_mem) * phi + C_mem;
+psi = 1.0e6 * term * term / exp(5294.0 / T) / W_max / C_mem;
+```
+
+---
+
+## 5. 旧モデル：dzベースの膜面flux
+
+当初のモデルでは、膜面近傍セルと膜表面値の差から、
+
+```text
+j_h = rho_h D_h (Y_h - Y_mem_h) / dz_h
+j_c = -rho_c D_c (Y_mem_c - Y_c) / dz_c
+```
+
+としていた。
+
+ここで `dz` は膜面face中心から隣接セル中心までの距離。
+
+確認したところ、
+
+```text
+dz ≈ 5e-6 m
+```
+
+だった。
+
+当初は 2 mm を100分割しているのでセル高さ20 µm、壁面から中心まで10 µmのはずと考えたが、実際には片側流路が1 mm/100分割相当になっているか、実メッシュ上で第1セル中心距離が5 µmになっている可能性が高いと判断した。
+
+この場合、
+
+```text
+rho D / dz ≈ 1 * 2.6e-5 / 5e-6 ≈ 5.2 kg/m2/s
+```
+
+となり、`ΔY = 0.01` 程度でも
+
+```text
+j ≈ 0.05 kg/m2/s
+```
+
+が出る。実際、旧モデルでは局所的に
+
+```text
+j = E-2〜E-1 kg/m2/s
+```
+
+が発生し、これが `Y_H2O` の急上昇と収束悪化の主因と判断した。
+
+---
+
+## 6. relaxation factor の導入
+
+旧モデルでは、fluxが強すぎるため、まず数値安定化として relaxation factor を導入した。
+
+```c
+j_used = FLUX_RELAX * j_model;
+```
+
+旧モデルでは、
+
+```text
+FLUX_RELAX = 0.001 → 安定
+FLUX_RELAX = 0.01  → 安定
+FLUX_RELAX = 0.1   → ある程度安定
+FLUX_RELAX = 1.0   → residuals高止まり、不安定
+```
+
+だった。
+
+この時点で、
+
+```text
+relaxation factor は物理係数ではなく、数値安定化・continuation用
+```
+
+と整理した。
+
+---
+
+## 7. 物理モデル改善：Sh/Nu/Leベースの全抵抗モデル
+
+`dz` に強く依存する旧モデルをやめ、物理的な境界層抵抗を入れるため、全抵抗モデルへ移行した。
+
+現在の基本式は、
+
+```text
+j = (Y_h - Y_c) / R_tot
+```
+
+ここで、
+
+```text
+R_tot = R_h + R_m + R_c
+```
+
+各抵抗は、
+
+```text
+R_h = 1 / (rho_h h_m,h)
+R_c = 1 / (rho_c h_m,c)
+R_m = psi delta_mem / (rho_mem D_mem)
+```
+
+物質伝達係数は、
+
+```text
+Sh = Nu Le^(-1/3)
+h_m = Sh D_v / d_h
+```
+
+としている。
+
+UDFでは現在、
+
+```c
+Sh = Nu * pow(Le, -1.0/3.0);
+k  = D_v * Sh / 2 / delta_channel;
+```
+
+としている。これは、
+
+```text
+d_h = 2 * delta_channel
+```
+
+と解釈するならOK。`delta_channel = 2 mm` をすでに水力直径として使うならここは修正が必要。
+
+現在の代表値では、
+
+```text
+R_h, R_c ≈ E1
+R_m      ≈ E2
+```
+
+であり、膜抵抗支配になっている。これは物理的には不自然ではない。
+
+---
+
+## 8. 最新UDFの状態
+
+最新の `BC_membrane_rev1(7).c` では、mass transfer部分は全抵抗モデルに更新されている。CSV出力もBCと同じ式を使うように統合した。
+
+現在のmass flux本体は概ねOK。
+
+```c
+R_tot = func_total_mass_transfer_resistance(rho_h, rho_c, k_h, k_c, psi);
+
+j_h = - (y_h2o_h - y_h2o_c) / R_tot;
+j_c =   (y_h2o_h - y_h2o_c) / R_tot;
+```
+
+ただし、来週再開時に注意すること：
+
+```text
+1. コメントがまだ古い
+   positive flux is outward from each fluid domain
+   と書かれているが、実装は positive = into fluid domain
+
+2. heat generation側は旧モデルのまま
+   mass transferと不整合なので、まだhookしない方がよい
+
+3. export_wall_face_zone は現在 wall-28 出力専用に近い
+   wall-28-shadowも出力するならhot/cold対応分岐を戻す
+
+4. コメントに全角ピリオドが残っている可能性
+   Fluent compileで文字コード問題になるなら削除する
+```
+
+---
+
+## 9. 全抵抗モデルでの計算結果
+
+全抵抗モデル導入後、明らかに旧モデルより安定した。
+
+特に、
+
+```text
+旧モデル：relaxation 0.3以上で崩れやすい
+全抵抗モデル：relaxation 0.1〜0.3なら比較的安定
+```
+
+となった。
+
+ただし、relaxationなし、または高い係数ではまだ膜近傍の `Y_H2O` が大きく変化する。
+
+1 iterationだけでは、
+
+```text
+hot側 Y_H2O は下がる方向
+cold側 Y_H2O は上がる方向
+```
+
+であり、方向性は正しい。
+
+しかし10 iteration程度回すと、条件によっては
+
+```text
+cold側 Y_H2O が 0.1以上
+hot側 Y_H2O も 0.05程度
+```
+
+まで上がるケースがあり、まだfluxが局所セルに対して強い可能性がある。
+
+---
+
+## 10. relaxation factor の再評価：全抵抗モデル版
+
+全抵抗モデルで、
+
+```text
+relaxation = 0.1 : 安定
+relaxation = 0.3 : 安定
+relaxation = 0.5 : residuals悪化
+```
+
+という結果になった。
+
+0.5にすると、
+
+```text
+continuity が上昇
+h2o residual も上昇
+velocity / energy もじわじわ悪化
+```
+
+した。
+
+このため、現状では
+
+```text
+0.3 が実用上の上限候補
+```
+
+と考えている。
+
+来週試すなら、
+
+```text
+0.30 → 0.35 → 0.40 → 0.45 → 0.50
+```
+
+のように細かく刻む価値はある。
+
+---
+
+## 11. 離散化条件の検討
+
+当初の離散化は、
+
+```text
+Pressure-Velocity Coupling : Coupled
+Pressure                   : Second Order
+Density                    : Second Order Upwind
+Momentum                   : Second Order Upwind
+h2o                        : Second Order Upwind
+Energy                     : Second Order Upwind
+Pseudo Time Method          : Global Time Step または Off
+```
+
+で試した。
+
+h2oの局所的な振動・オーバーシュートを疑い、
+
+```text
+h2o : First Order Upwind
+```
+
+も試したが、0.5での不安定化にはあまり改善が見られなかった。
+
+この結果から、
+
+```text
+主因は高次離散化によるspeciesオーバーシュートではなく、
+膜面mass fluxと流れ場・密度場の連成の強さ
+```
+
+と判断した。
+
+---
+
+## 12. Pseudo Time Method の検討
+
+Pseudo Time Methodは、定常計算に仮想的な時間項を加えて安定に定常解へ近づける方法。
+
+試したこと：
+
+```text
+Pseudo Time = Local Time
+```
+
+しかし、あまり改善は見られなかった。
+
+したがって、
+
+```text
+pseudo timeの設定だけで0.5を安定化するのは難しそう
+```
+
+と判断。
+
+---
+
+## 13. heat generation rate について
+
+現時点では、heat generation rateはまだ入れていない。
+
+理由：
+
+```text
+1. mass transfer単体の挙動を先に安定化したい
+2. heat generationを同時に入れると原因切り分けが難しい
+3. 現在のheat generation UDFは旧モデル由来のjを使っており、mass transferと不整合
+```
+
+ただし、物理的には水分移動には潜熱移動が伴うため、最終的には必ず必要。
+
+将来入れる場合は、旧モデルの
+
+```text
+j_h = rho D (Y - Y_mem) / dz
+```
+
+ではなく、全抵抗モデルの
+
+```text
+j = (Y_h - Y_c) / R_tot
+```
+
+と同じ `j` を使うべき。
+
+潜熱項は、
+
+```text
+q'' = j L_w       [W/m2]
+q''' = j L_w / delta_mem  [W/m3]
+```
+
+となる。
+
+ただし Heat Generation Rate の符号規約は species mass flux と別なので、片側ずつ検証が必要。
+
+---
+
+## 14. 現在の作業方針
+
+現時点では、heat generationは一旦無視し、
+
+```text
+全抵抗モデル + relaxation factor
+```
+
+で水分移動だけを安定化する方針。
+
+現在の暫定結論：
+
+```text
+0.1〜0.3 : 使える
+0.5     : 不安定
+```
+
+次の試行として、
+
+```text
+UDFなしで流れ場を先に作る
+→ その後 UDFをhook
+→ 0.1 → 0.3 → 0.35 → 0.4 → ...
+```
+
+を試す予定。
+
+---
+
+## 15. 流れ場初期化の検討
+
+流れ場が未発達な状態で膜mass fluxを入れると、
+
+```text
+膜面からH2Oが入る
+しかし対流で運ばれない
+膜近傍セルに蓄積
+Y_H2Oが急上昇
+continuity / density / velocityが乱れる
+```
+
+可能性がある。
+
+そのため、次に試すべき手順：
+
+```text
+1. UDFなし、またはmass flux = 0で計算
+2. 本番と同じinlet速度・温度・湿度条件でinitialize
+3. 速度場・温度場・species場を100〜300 itr程度なじませる
+4. case/data保存
+5. UDFをhook
+6. relaxation = 0.1から開始
+7. 0.3 → 0.35 → 0.4 → 0.5 と刻む
+```
+
+このテストで、
+
+```text
+UDFなし予備計算後に0.5が安定する
+→ 初期流れ場の影響が大きい
+
+それでも0.5が不安定
+→ 膜mass flux境界条件そのものが主因
+```
+
+と判断できる。
+
+---
+
+## 16. 来週再開時のおすすめ手順
+
+来週は以下の順で再開するのがよい。
+
+### Step 1：最新UDFの整理
+
+```text
+1. コメントの符号規約を修正
+2. 全角文字を削除
+3. 未使用変数を削除
+4. heat generation profileはhookしない
+5. mass flux profileのみhook
+```
+
+### Step 2：UDFなしでベース場作成
+
+```text
+1. mass flux UDFを外す
+2. inlet条件は本番通り
+3. 100〜300 itr回す
+4. residualと速度場を確認
+5. case/data保存
+```
+
+### Step 3：UDF hook
+
+```text
+1. h2o_membrane_mass_flux を wall-28 / wall-28-shadow 両方へhook
+2. relaxation = 0.1
+3. 50〜100 itr
+4. CSV出力
+5. Y_H2O, j, R_h, R_m, R_c, R_totを確認
+```
+
+### Step 4：relaxationを刻む
+
+```text
+0.1 → 0.2 → 0.3 → 0.35 → 0.4 → 0.45 → 0.5
+```
+
+各段階で確認するもの：
+
+```text
+continuity residual
+h2o residual
+Y_H2O min/max
+hot outlet Y_H2O
+cold outlet Y_H2O
+j_c / j_h の最大・最小・平均
+H2O mass balance
+```
+
+### Step 5：限界判定
+
+```text
+0.4〜0.5でも安定
+→ 次はheat generation整合化へ進む
+
+0.3以上で不安定
+→ 現状は0.3を暫定採用し、モデル改善へ
+```
+
+---
+
+# 現時点の一言まとめ
+
+**旧dzベースモデルは硬すぎた。Sh/Nu/Leベースの全抵抗モデルにしたことで大幅に安定化した。ただし、全抵抗モデルでもrelaxation 0.5ではまだ不安定で、現状では0.3程度が実用上の安定上限。次はUDFなしで流れ場を先に作ってからUDFをhookし、0.35〜0.5を再評価する。heat generationはmass transfer単体が安定してから、全抵抗モデルの同じjを使って実装する。**
