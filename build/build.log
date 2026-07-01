@@ -1,24 +1,26 @@
 [INFO] Loaded C:\Users\Masaya\Documents\00_Private_work\02_CFD\build\header.tex from C:\Users\Masaya\Documents\00_Private_work\02_CFD\build\header.tex
+[WARNING] Note with key 'meshing_approach' defined at ..\iBio_project.md line 287 column 1 but not used.
 [INFO] Running filter pandoc-crossref
 [INFO] Completed filter pandoc-crossref in 0 ms
 [INFO] Running filter citeproc
 [INFO] Loaded acta-astronautica.csl from acta-astronautica.csl
 [INFO] Fetching http://www.zotero.org/styles/elsevier-with-titles...
 [INFO] Loaded refs.bib from ..\refs.bib
-[WARNING] Citeproc: citation undated-uj not found
 [INFO] Completed filter citeproc in 31 ms
-[INFO] Loaded img/POL_flow_schematics.png from ..\img/POL_flow_schematics.png
-[INFO] Loaded img/POL_sorption_curve.png from ..\img/POL_sorption_curve.png
-[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-d065dc4c146111bc\img\POL_flow_schematics.png...
-[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-d065dc4c146111bc\img\POL_sorption_curve.png...
+[INFO] Loaded img/Water_pressure_impact.png from ..\img/Water_pressure_impact.png
+[INFO] Loaded img/bubble_detachment_mapping.png from ..\img/bubble_detachment_mapping.png
+[INFO] Loaded img/Interphase_forces_in_bubble_flow.png from ..\img/Interphase_forces_in_bubble_flow.png
+[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-af4838f3da6278bf\img\Interphase_forces_in_bubble_flow.png...
+[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-af4838f3da6278bf\img\Water_pressure_impact.png...
+[INFO] Extracting C:\Users\Masaya\AppData\Local\Temp\media-af4838f3da6278bf\img\bubble_detachment_mapping.png...
 [INFO] Not rendering RawBlock (Format "openxml") "<w:tcPr><w:vAlign w:val=\"center\"/></w:tcPr>"
 [INFO] [makePDF] Temp dir:
-  C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc
+  C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf
 [INFO] [makePDF] Command line:
-  lualatex "-halt-on-error" "-interaction" "nonstopmode" "-output-directory" "C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc" "C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.tex"
+  lualatex "-halt-on-error" "-interaction" "nonstopmode" "-output-directory" "C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf" "C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.tex"
 [INFO] [makePDF] Relevant environment variables:
-  ("TEXINPUTS","C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc;")
-  ("TEXMFOUTPUT","C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc")
+  ("TEXINPUTS","C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf;")
+  ("TEXMFOUTPUT","C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf")
   ("USERPROFILE","C:\\Users\\Masaya")
 [INFO] [makePDF] Source:
   % Options for packages loaded elsewhere
@@ -142,13 +144,13 @@
   \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
   \urlstyle{same}
   \hypersetup{
-    pdftitle={Polyblock AG社とのFormFlex HXに関する研究開発について},
+    pdftitle={Important Formulas for CFD},
     hidelinks,
     pdfcreator={LaTeX via pandoc}}
   
-  \title{Polyblock AG社とのFormFlex HXに関する研究開発について}
+  \title{Important Formulas for CFD}
   \author{Masaya MUROHARA}
-  \date{Updated date: 2026-06-09}
+  \date{Updated date: 2026-07-01}
   
   \begin{document}
   \maketitle
@@ -157,429 +159,504 @@
   \setcounter{tocdepth}{3}
   \tableofcontents
   }
-  \section{Theory}\label{theory}
+  \section{混相流のシミュレーション}\label{ux6df7ux76f8ux6d41ux306eux30b7ux30dfux30e5ux30ecux30fcux30b7ux30e7ux30f3}
   
-  \subsection{Exchange effectiveness}\label{exchange-effectiveness}
+  混相流のシミュレーションにおけるモデル化にあたって，以下を整理する必要がある．
+  1. 流れは均質（homogeneous）か非均質（Inhomogeneous）か 2.
+  異相界面を正確に描写する必要があるか否か 3.
+  ドメインに対して必要な空間・時間解像度はどの程度か
   
-  Sensible heat is defined by the temperature exchange effectiveness, and
-  latent heat is defined by the humidity exchange effectiveness. Each flow
-  is defined as shown in Fig.~\ref{fig:POL_flow_schematics}. The
-  abbreviations are as follows.
+  \subsection{オイラー法とラグランジュ法}\label{ux30aaux30a4ux30e9ux30fcux6cd5ux3068ux30e9ux30b0ux30e9ux30f3ux30b8ux30e5ux6cd5}
+  
+  オイラー法は一つ一つのセルへの物理量（質量，運動量，エネルギーなど）の流入出のバランスを解く．すなわちある空間的な一点を常に観察し続けることに等しい．一方のラグランジュ法は混相流の中でも粒子が存在する場合に検討されることが多い．すなわち，一つ一つの粒子に加わる力を考慮し，各粒子の運動方程式を解く．いずれにおいても，オイラー法では運動量保存を解くため，ラグランジュ法では運動方程式を解くために粒子にかかる様々な力を考慮する．この力のモデル化において様々な近似モデルが存在し，モデルによって適用可能な条件や精度が変わってくる．
+  
+  混相流において，一般に連続相と分散相とに分けて考える．ここで連続相は水や空気など，ドメインのうち大多数を占める背景場である．一方の分散相は連続相内に拡散する粒子を指す．連続相は一般にオイラー法で解かれるが，分散相についてはオイラー法かラグランジュ法かは興味のある現象によって選択される．分散相でもオイラー法を選択する場合オイラー・オイラー（EL）法，分散相ではラグランジュ法を採用する場合はオイラー・ラグランジュ（EL）法と呼ばれる．
+  EE法は各セル内での混合率（気泡や固体粒子では体積分率）を定義し，全ドメインで連続的な分布を解く．一つ一つの粒子の運動を詳細に解かない代わりにドメイン全体を追うことになるので，ドメイン全体で副相の濃度が高いときに有効である．ただ，このためにオイラー法では界面がにじむ（物理的な境界を超えて物理量が隣り合うセルに影響を及ぼす）ことがある．オイラー法で界面を正確に解きたい場合，VOF（Volume
+  of
+  Fluid）が用いられる．この時は当然ながら界面を正確に解像できるだけの刻み幅にする必要がある．
+  オイラー法の中でも均質モデルと不均質モデルにさらに分類される．均質モデルでは各セル内の混相流は完全に平衡状態にある．すなわち，セル内でそれぞれの相の速度や温度，運動量などは等しい．一方不均質モデルでは各セル内で相ごとに異なる物理量を持つことができる．
+  一方のEL法は各粒子の運動方程式を解く．すなわち，粒子は体積を持たない質点として計算されるので粒子サイズに対してのセルサイズの要求はない．しかしながら粒子への力は連続相の場に強く影響を受けるため，連続相の場を十分に計算できるセルサイズである必要がある．また，ラグランジュ法では個々の粒子を追いかける関係から高濃度粒子の計算には多大な計算資源を要する．一般的にはここの粒子同士は影響を及ぼさない程度の希薄な分散流に適用される．
+  ここで気泡塔のシミュレーションを考える．気泡塔では液中での個々の気泡の動きが重要であることは間違いない．この場合はEL法が適している．一方で，気泡同士が衝突・分裂を繰り返しどんどん大きくなるシチュエーションや，液体上面の大気と液体との界面の揺れなどの比較的大きな気液界面の運動に興味がある場合，個々の微小な気泡の運動を解きつつ大きな界面の動きを解くことになり，計算コストが無駄に大きくなってしまう．このようなとき，ハイブリッドモデルが採用されることがある．すなわち，気泡のインジェクションや合体前の小さな気泡に対してはDPMをによるラグランジュ法を用い，液体上面においてはVOF法により界面挙動を計算する．この場合，Fluent上ではVOFとDPMはそれぞれ独立分散相を定義できてしまう．そのため，VOFにもDPMにも分散相の流入を定義してしまうと二重にカウントされる可能性があることに注意が必要である．また，DPMとVOFの情報の受け渡しにはUser
+  Define Functionなどで適切な設定をする必要がある．
+  
+  \section{気泡塔のシミュレーション}\label{ux6c17ux6ce1ux5854ux306eux30b7ux30dfux30e5ux30ecux30fcux30b7ux30e7ux30f3}
+  
+  気泡塔のシミュレーションは年々重要性を増しているが，計算条件，乱流モデル，各力の係数など設定項目が多岐にわたり，モデルの妥当性検証や計算結果ー実験結果間の差異の原因究明が非常に難しい．
+  
+  以下，水中に空気を注入することを考える．
+  
+  \subsection{クーラン数}\label{ux30afux30fcux30e9ux30f3ux6570}
+  
+  気泡塔のシミュレーションは非定常流れにより各時刻での気泡の動きを扱うことになる．そのため，クーラン数は非常に重要である．クーラン数\(C\)は
+  
+  \begin{equation}\protect\phantomsection\label{eq:Courant_number}{
+  C = \frac{v \Delta t}{\Delta x}
+  }\end{equation}
+  
+  として表される．ここで，\(v\)は流速，\(\Delta t\)は時間刻み幅，\(\Delta x\)はセルの代表長である．クーラン数は数値計算においてある時間刻みにおいて流れが何セル分進むかを表す無次元数である．数値計算において，「情報が伝播する速さ（\(\Delta x / \Delta t\)）は実際の現象で物理量が伝播する速さ\(v\)よりも早くなければならない」，すなわち\(C < 1\)を満たす必要があるというクーラン条件（CFL条件）を表現する重要な値である．たとえば時間刻みを0.01s，要素幅を5mm，流速の代表値を0.5m/sとすればクーラン数は1となる．もうすこし空間刻みを大きくするか時間刻みを小さくして0.5程度にしておくといいかもしれない．
+  
+  \subsection{気泡の運動}\label{ux6c17ux6ce1ux306eux904bux52d5}
+  
+  気泡塔における気泡の運動は主に3つのフェーズに分けられる．すなわち 1.
+  気体の供給による気泡の成長 2. 気泡のインジェクタからの離脱 3. 気泡の上昇
+  である．
+  
+  気泡塔において，気液両相は非圧縮性と仮定される．気泡が常温常圧と仮定すれば，気泡は大気圧の他に水圧の影響を受ける．気泡塔の高さを\(h\)とすれば水圧と大気圧の比を\(\rho_{\mathrm{l}} h g / P_0\)である．この比を気泡塔高さを変数としてプロットすればFig.~\ref{fig:Water_pressure_impact}のようになる．したがって気泡塔高さが10
+  mを超えてくると水圧の影響が大気圧を上回り始め圧縮性を考慮する必要が出てくると思われる．しかし，実験室レベルの1m前後の気泡塔であれば水圧による圧縮効果は無視でき，非圧縮性と仮定して差し支えない．
+  \pandocbounded{\includegraphics[keepaspectratio,alt={Water pressure/atmospheric pressure vs.~height of water.}]{C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Water_pressure_impact.png}}
+  
+  \subsubsection{気泡の成長}\label{ux6c17ux6ce1ux306eux6210ux9577}
+  
+  ここではインジェクタとしてある一つのオリフィスを考える．オリフィス径は\(d_{\mathrm{o}}\)とする．
+  
+  \subsubsection{気泡の離脱}\label{ux6c17ux6ce1ux306eux96e2ux8131}
+  
+  \paragraph{離脱時の気泡体積}\label{ux96e2ux8131ux6642ux306eux6c17ux6ce1ux4f53ux7a4d}
+  
+  気泡の離脱は大きく3つのフェーズに分けられる．すなわちSingle
+  period，Double periodおよびTriple
+  periodである．大まかに言えば，空気供給の流量および流速が大きいほどに，離脱する気泡同士の影響が大きくなる．この空気供給量の影響はオリフィスRe数
+  \(Re_{\mathrm{o}} = v_{\mathrm{g}} d_{\mathrm{o}} / \nu_{\mathrm{g}}\)
+  で整理される．ここで\(v_{\mathrm{g}}\)はオリフィスにおける気体の速度であり，\(\nu_{\mathrm{g}}\)は気体の動粘性係数である．
+  オリフィスRe数が大きいほど，生成される気泡も大きくなる．これは以下で定義される無次元体積\(\bar{V}\)で整理される．ここで無次元体積は以下の通り，離脱時の気泡体積\(V_{\mathrm{b}}\)および基準体積\(V_{0}\)の比として定義される．
+  
+  \begin{equation}\protect\phantomsection\label{eq:dimensionless_volume}{
+  \begin{aligned}
+  \bar{V} &= \frac{V_{\mathrm{b}}}{V_0}\\
+  V_0 &= \frac{\pi d_{\mathrm{o}} \sigma}{(\rho_{\mathrm{l}} - \rho_{\mathrm{g}}) g}
+  \end{aligned}
+  }\end{equation}
+  
+  ここで気泡体積はSingle
+  periodでは球状を仮定できるが，他のperiodでは必ずしも球状とならないため，その体積の決定は容易ではない．一般に気泡塔内の気泡は非圧縮性気体として考えられるため，以下のように求められる．
+  
+  \begin{equation}\protect\phantomsection\label{eq:def_bubble_volume}{
+  V_{\mathrm{b}} = \int_0^{t_{\mathrm{d}}} q \; dt
+  }\end{equation}
+  
+  ここで\(q\)はオリフィスにおける体積流量である．また，基準体積は浮力
+  \(F_{\mathrm{buoyancy}} =V_{\mathrm{b}} (\rho_{\mathrm{l}} - \rho_{\mathrm{g}})\)
+  と表面張力
+  \(F_{\mathrm{surface \; tension}} = \pi d_{\mathrm{o}} \sigma\)
+  が釣り合う体積であり，エトベス数が1のときの体積ともいえる．
+  
+  オリフィスRe数および無次元体積のマップをFig.~\ref{fig:bubble_detachment_mapping}に示す{[}1{]}．
+  \pandocbounded{\includegraphics[keepaspectratio,alt={Map of Orifice Re vs.~Dimensionless bubble volume.}]{C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/bubble_detachment_mapping.png}}
+  
+  図において，Single periodのうちSingle
+  bubblingでは各気泡が前の気泡の影響を受けずに形成するため気泡の離脱周期は一定に保たれる．式Eq.~\ref{eq:def_bubble_volume}より離脱周期が一定の場合は気泡体積も一定となる．一方，それ以外のピリオドにおいては気泡間の相互作用により連続する気泡の離脱周期に差が生じる．その結果，それぞれ複数本の理論線が現れる．
+  
+  Single
+  periodでは生成・離脱していく気泡同士はある一定の間隔の距離を保って上昇していき，それぞれが衝突することはない．Single
+  periodのうち，\(Re_{\mathrm{o}} < 200\) の範囲（Single
+  bubbling）では連続する気泡はそれぞれで独立しており，相互作用は無視できる．一方，Single
+  periodのうち\(200 < Re_{\mathrm{o}} < 480\)の範囲（Pairing）では，前の気泡の影響をわずかながら受ける．これにより，2つの気泡は多少の体積の差をもって離脱していくが，それらが衝突することはない．\(480 < Re_{\mathrm{o}}\)において連続する2つまたは3つの気泡の衝突により合体が起こる．これにより離脱周期の分岐が起こる．気泡塔においては基本的に小さな気泡を大量に生成し，表面積を大きくしたいことが多い．そのため，Single
+  periodに合わせることが良いように思われる．
+  
+  \paragraph{離脱時の気泡速度}\label{ux96e2ux8131ux6642ux306eux6c17ux6ce1ux901fux5ea6}
+  
+  気泡塔における気泡の速度は離脱時，加速時，定常時のそれぞれで考える必要がある\footnote{Ansys
+    Fluentの混相流シミュレーションにおいて，EulerianやDPMモデルにおいては気泡の初速度を入力する．しかしながら，Deenらの実験{[}2{]}を再現しようとする研究{[}3–6{]}などでは気泡の初速に関する記載が一切なく，代わりに空塔速度が記載されている．室原の理解としては空塔速度は体積流量を代表面積で規格化した値であり気泡の速度としては不適切だと思われる．これについてはさらなる調査が必要である．}．
+  
+  \subsubsection{気泡の上昇}\label{ux6c17ux6ce1ux306eux4e0aux6607}
+  
+  \paragraph{終端速度}\label{ux7d42ux7aefux901fux5ea6}
+  
+  \paragraph{上昇中の気泡に働く力}\label{ux4e0aux6607ux4e2dux306eux6c17ux6ce1ux306bux50cdux304fux529b}
+  
+  気泡が上昇する際に考慮すべき力をFig.~\ref{fig:interphase_forces_in_bubble_flow}に示す{[}7{]}．これらは抗力と非抗力に分類され，非抗力のうちVirtual
+  mass force, wall lubrication force, Lift force, Turbulant dispersion
+  forceなどがある．Lubricationとは聞きなれない単語だが，「潤滑」という意味である．
+  
+  \begin{figure}
+  \centering
+  \pandocbounded{\includegraphics[keepaspectratio,alt={Illustration of the interphase forces in bubbly flow.}]{C:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Interphase_forces_in_bubble_flow.png}}
+  \caption{Illustration of the interphase forces in bubbly
+  flow.}\label{fig:interphase_forces_in_bubble_flow}
+  \end{figure}
+  
+  \subparagraph{抗力}\label{ux6297ux529b}
+  
+  抗力は言葉の通り，気泡が液中を運動する際に液体から受ける抵抗力であり，気泡と液体の速度差に比例する．一般に抗力は
+  
+  \begin{equation}\protect\phantomsection\label{eq:drag_force}{
+  F_{\mathrm{D}}=\frac{3}{4} \frac{C_{\mathrm{D}}}{d_{\mathrm{b}}} \rho_{\mathrm{l}} \alpha_{\mathrm{l}} \alpha_{\mathrm{g}} |v_{\mathrm{g}} - v_{\mathrm{l}}| (v_{\mathrm{g}} - v_{\mathrm{l}})
+  }\end{equation}
+  
+  と表される．ここで\(C_{\mathrm{D}}\)は抗力係数，\(d_{\mathrm{b}}\)は気泡直径，\(\rho\)は質量密度，\(\alpha\)は体積分率，\(v\)は速度であり，添え字\(\mathrm{l}\)と\(\mathrm{g}\)はそれぞれ液相と気相を表す．このうち，抗力係数の決定に様々なモデルが提案されている．抗力係数はRe数や気泡形状に強く依存することが知られており，これらを整理するために気泡レイノルズ数およびエトベス数（Etoves
+  number）が導入される．
+  気泡レイノルズ数はその名の通り，気泡に関するRe数であり
+  
+  \begin{equation}\protect\phantomsection\label{eq:bubble_Re}{
+  Re_{\mathrm{b}} = \frac{\rho_{\mathrm{l}} |v_{\mathrm{g}} - v_{\mathrm{l}}| d_{\mathrm{b}}}{\mu_{\mathrm{l}}}
+  }\end{equation}
+  
+  である．ここで\(\mu\)は粘性係数である．また，エトベス数は
+  
+  \begin{equation}\protect\phantomsection\label{eq:bubble_Eo}{
+  Eo = \frac{F_{\mathrm{bouyancy}}}{F_{\mathrm{surface \;tension}}} = \frac{\Delta \rho g d_{\mathrm{b}}^2 }{\sigma}
+  }\end{equation}
+  
+  である．ここで\(\sigma\)は液相の表面張力を表し，常温常圧の水では0.072
+  N/mが用いられることが多い．ここで浮力は気泡形状を変形させようとする力であり，表面張力は気泡形状を球状に保とうとする力であると解釈される．正確には，エトベス数は形状を変形させようとする力と形状を保持しようとする力の比であり，液中の気泡においてはそれらを代表する力が浮力と表面張力であるといえる．\(Eo \ll 1\)において球状，\(Eo \approx 1-40\)程度で楕円形，\(Eo \gg 40\)で変形しているとみなされる．例えばDeenらの実験においては気泡は4
+  mmであるため\(Eo = 2.17\)であることから球に近い楕円形であったと推定される．さて，抗力係数に話を戻す．種々のモデルのうち，気泡塔のCFDモデルにおいてはIshii-Zuberモデルが採用されることが多いようである【REFを入れる】．Ishii-ZuberモデルはFraceらのモデルを簡略化したものであり，\(Eo\)が小さく気泡が球状の場合，抗力係数は気泡Re数の関数として表される．一方，変形が始まると抗力係数は気泡Re数に独立した定数として表される．すなわち，Ishii-Zuberモデルにおける抗力係数は以下の条件式で決定される．
+  
+  \begin{equation}\protect\phantomsection\label{eq:Cd_Ishii_Zuber}{
+  C_{\mathrm{D}} = \mathrm{max} ( \mathrm{min} (C_{\mathrm{D, ellipse}}, \; C_{\mathrm{D, cap}}), \; C_{\mathrm{D,sphere}})
+  }\end{equation}
+  
+  \begin{equation}\protect\phantomsection\label{eq:Cd_sphere}{
+  C_{\mathrm{D, sphere}} = \mathrm{max} \left(
+    \frac{24}{Re_{\mathrm{b}}} \left( 1 + 0.15Re_{\mathrm{b}}^{0.687} \right), \;
+    0.44
+  \right)
+  }\end{equation}
+  
+  \begin{equation}\protect\phantomsection\label{eq:Cd_ellipse}{
+  C_{\mathrm{D,ellipse}} = \frac{2}{3} Eo^{1/2}
+  }\end{equation}
+  
+  \begin{equation}\protect\phantomsection\label{eq:Cd_cap}{
+  C_{\mathrm{D,cap}} = \frac{8}{3}
+  }\end{equation}
+  
+  ここで，\(C_{\mathrm{D, sphere}}\)はShiller-Naumannモデルに等しい．また，\(C_{\mathrm{D, ellipse}}\)は\(Re_{\mathrm{b} > 1000}\)
+  の範囲でしか適用できないことに注意が必要である．
+  
+  \subparagraph{仮想質量力}\label{ux4eeeux60f3ux8ceaux91cfux529b}
+  
+  非抗力のうち，仮想質量力は気泡が液中で加速されるときに重要となる．液相に対して加速する気泡は加速度に比例する慣性力を受けるが，これはあたかも仮想的な質量があるかのようにふるまうためである．この力は相間の加速度の差に比例するため，定常流れにおいては一般に無視される{[}7{]}．一方，絞り部を通る流れなど加速度が大きい流れでは重要な役割を果たす．また，Fluentにおいては非定常気泡塔のような気相密度が液相密度に対して十分に小さいとき，特に重要であると但し書きがある{[}8{]}．仮想質量力は以下の式で与えられる．
+  
+  \begin{equation}\protect\phantomsection\label{eq:virtual_mass_force}{
+  F_{\mathrm{VM}} = C_{\mathrm{VM}} \alpha_{\mathrm{b}} \rho_{\mathrm{l}} \left(
+  \frac{d v_{\mathrm{b}}}{dt} - \frac{d v_{\mathrm{l}}}{dt}
+  \right)
+  }\end{equation}
+  
+  ここで，\(C_{\mathrm{VM}}\)は仮想質量力係数であり，典型的に0.5が与えられる．ただし，この値はポテンシャル流れ中の固体球に対する理論解として得られたものである{[}9{]}ことに注意する．そのため，気泡塔における気泡への適用においてはエトベス数により気泡が球状であることを確認したうえで\(C_{\mathrm{VM}}=0.5\)とするのが安全であろう．気泡形状が楕円または歪んでいるときの仮想質量力係数についてはさらなる調査が必要である．
+  
+  \section{気泡から水への酸素の移動}\label{ux6c17ux6ce1ux304bux3089ux6c34ux3078ux306eux9178ux7d20ux306eux79fbux52d5}
+  
+  気泡塔における気泡の供給はそもそも母液に酸素を供給することにある．例えば下水処理槽では汚物分解に有機生物を利用するため，酸素濃度を一定に保つ必要がある．また，水族館や養殖場で魚の飼育をする際にも水中酸素濃度は非常に重要である．ここでは気泡から水への酸素の移動に関する物理をまとめる．
+  一般的に採用される移動モデルはtwo-thin-film
+  modelである．このモデルにおいて，気泡中の酸素は気境膜ー気液界面ー液境膜を通過して液体に溶解する．境膜とは気液界面近傍にある境界層と考えればよく，気体側では圧力境界，液体側では濃度境界として表現される．酸素の移動はそれぞれの場所での移動容量係数を考えるが，一般的には酸素のような難溶解性気体の場合，液境膜部における移動容量係数が支配的であるため，液側物質移動容量係数\(k_{\mathrm{L}}a \approx\)総括物質移動容量係数\({K_{\mathrm{L}}a}\)として扱う．ここで\(k_{\mathrm{L}}\)は液境膜酸素移動係数{[}m/s{]}であり，\(a\)は気液接触面積{[}m-1{]}である．均一流において，気泡系\(d\)が既知であれば
+  
+  \begin{equation}\protect\phantomsection\label{eq:gas_surface_area}{
+  a = \frac{6 \varepsilon_{\mathrm{G}}}{d}
+  }\end{equation}
+  である．\(\varepsilon_{\mathrm{G}}\)はガスホールドアップ（気泡塔の気体体積分率，ボイド率と同義）である．今回のような，均一流れかつ循環液流がない場合，ガスホールドアップは気泡のスリップ速度\(u_{\mathrm{s}}\)とガス空塔速度\(u_{\mathrm{G}}\)から，
+  
+  \begin{equation}\protect\phantomsection\label{eq:slip_vel}{
+  u_{\mathrm{s}} = \frac{u_{\mathrm{G}}}{\varepsilon_{\mathrm{G}}}
+  }\end{equation}
+  
+  とも表される．これらの値を用いて気液界面を通じた質量移動率\(S_{\mathrm{O_2}}\)は
+  
+  \begin{equation}\protect\phantomsection\label{eq:m_dot}{
+  S_{\mathrm{O_2}} =K_{\mathrm{L}}a \rho_{\mathrm{L}} \left(
+    y_{\mathrm{L}}^{*} - y_{\mathrm{L}}
+   \right)
+  }\end{equation}
+  
+  である．ここで\(y_{\mathrm{L}}\)は液中での酸素の質量分率であり\(y_{\mathrm{L}}^{*}\)は液中での酸素の飽和質量分率である．これらに\(\rho_{\mathrm{L}}\)を乗することで質量濃度差を駆動力とした表現である．したがってここでの質量移動率\(S_{\mathrm{O_2}}\)の単位は\(\mathrm{[kg \; m^{-3} \; s^{-1}]}\)であることに注意する．ここで以下が仮定されている．
   
   \begin{itemize}
+  \item
+    気泡から気液界面を介した液体への酸素移動は液境物質移動容量係数が支配的である．
+  \item
+    液境膜で母液に溶解した酸素は十分に速い速度で母液中を拡散し，母液中の酸素濃度は十分に早く拡散する．
+  \item
+    液体上面の自由界面での酸素移動は無視されている．
+  \end{itemize}
+  
+  \(y_{\mathrm{L}}^{*}\)は主にHenryの式によって求められる．ただ，Henry式の表現は質量分率やモル分率などのいくつかの表現があり，手元にあるHenryの式は液相中の飽和モル分率\(x_{\mathrm{L}}^{*}\)による表現であった．すなわち，Henry定数\(H\)を用いて
+  
+  \begin{equation}\protect\phantomsection\label{eq:henry}{
+  x_{\mathrm{L}}^{*} = \frac{p_{\mathrm{O_2}}}{H}
+  }\end{equation}
+  
+  である．ここで \(p_{\mathrm{O_2}}\)
+  は気泡側の酸素分圧である．ヘンリー定数は物質の組み合わせ（例：水と酸素）と温度によって決まる物性値である．化学便覧等によってまとめられている{[}10{]}．酸素については以下の式で求められる．ヘンリー定数の単位によく注意し，適宜単位変換を行う必要があることに注意する．
+  
+  \begin{equation}\protect\phantomsection\label{eq:Henry_t}{
+  \begin{aligned}
+  \ln (H/H_0) &= A(1-T_0/T) + B\ln (T/T_0) + C(T/T_0 - 1)\\
+  H_0 &= 4420 \times 10^6 \; \mathrm{Pa}\\
+  T_0 &= 298.15 \; \mathrm{K}\\
+  A &= 29.339\\
+  B &= -24.453\\
+  C &= 0
+  \end{aligned}
+  }\end{equation}
+  
+  ただし，適用可能な温度範囲は\(273 \; \mathrm{K} < T < 349 \; \mathrm{K}\)である．温度25度においては\(T = 298.15 \mathrm{K}\)として\(H = 4.36 \times 10^4 \; \mathrm{atm / (mol \; fraction \; at \; liquid \; side)} \approx 4.42 \times 10^9 \; \mathrm{Pa / (mol \; fraction \; at \; liquid \; side)}\)である．25度の水で1気圧の場合，気泡中の酸素分圧は0.21気圧であるから，Eq.~\ref{eq:henry}とEq.~\ref{eq:Henry_t}から飽和酸素濃度はモル分率で\(4.8 \times 10 ^{-6}\)であり，質量分率で約\(8.53 \times 10^{-6}\)となることが分かる．Fluentでは通常質量分率によって表現されるため，この変換が重要である．
+  
+  さて，\(K_{\mathrm{L}}a\)は様々な影響を受ける．空塔速度や気泡径，気泡形状や蛇行の有無などにより影響を受け，一般的には実験的に求められるようである（近年，2010年代以降，徐々に数値計算的なアプローチから求めることも行われている．これについては後述する）．すなわち，Eq.~\ref{eq:dC_dt}を積分することで
+  
+  \begin{equation}\protect\phantomsection\label{eq:dC_dt_int}{
+  {K_{\mathrm{L}}a} = \frac{1}{t_2 - t_1}
+  \ln \left(
+    \frac{C_{\mathrm{L}}^{*} - C_{\mathrm{1}}}{C_{\mathrm{L}}^{*} - C_{\mathrm{2}}}
+  \right)
+  }\end{equation}
+  を得る．時刻\(t_1\)と\(t_2\)における溶存酸素濃度を濃度計（例えばDO-31P，東亜DKK）で測定することで\(K_{\mathrm{L}}a\)を求めることができる．
+  
+  酸素供給能力は，酸素移動効率OTE(Oxygen Transfer
+  Efficiency)で評価される．OTEは以下の式で表される．
+  
+  \begin{equation}\protect\phantomsection\label{eq:OTE}{
+  OTE = \frac{K_{\mathrm{L}} a C_{\mathrm{L}}^* V}
+  {G_{\mathrm{s}} \rho_{\mathrm{G}} O_{\mathrm{w}}}
+  }\end{equation}
+  
+  ここで，\(V\)は液相体積，\(G_{\mathrm{s}}\)は供給空気の体積流量，\(\rho_{\mathrm{G}}\)は空気密度，\(O_{\mathrm{w}}\)は空気中の酸素含有重量\((=0.233 \; \mathrm{O_2-kg/ Air-kg} )\)である．
+  
+  \subsection{\texorpdfstring{物質移動係数\(k_{\mathrm{L}}\)のモデル}{物質移動係数k\_\{\textbackslash mathrm\{L\}\}のモデル}}\label{ux7269ux8ceaux79fbux52d5ux4fc2ux6570k_mathrmlux306eux30e2ux30c7ux30eb}
+  
+  最も重要な物理量は物質移動係数\(k_{\mathrm{L}}\)であり，様々なモデルが提案されている．しかしながら，2022年時点においてもどのモデルがよいか統一した見解はまだ醸成されていないようである．もっとも簡単なモデルとして単一気泡モデルがある．これは文字通り単一の気泡からの物質移動のモデルであり，供給空気流量が小さく気泡塔がSingle
+  bubbling領域で作動する場合に有用と思われる．このモデルではSh数を用いて\(k_{\mathrm{L}}\)を表す．すなわち
+  
+  \begin{equation}\protect\phantomsection\label{eq:kL_by_Sh}{
+  k_{\mathrm{L}} = \frac{Sh D_{\mathrm{AB}}}{d}
+  }\end{equation}
+  
+  である．ここで\(Sh\)はシャーウッド数，\(D_{\mathrm{AB}}\)は液相中の対象成分の拡散係数{[}m2/s{]}，\(d\)は代表長さであり，一般に気泡径が用いられる．\(D_{\mathrm{AB}}\)は温度依存性があるが，25度の純水では\(1.97 \times 10^{-9} \mathrm{m^2/s}\)である．Sh数の相関式が難しく，FluentではRanz-Marshall型相関式が用いられるようである．Ranz-Marshallの式は球状物体から流体への熱・物質移動のアナロジーとして求められる．
+  
+  \begin{equation}\protect\phantomsection\label{eq:Sh}{
+  Sh = 2.0 + 0.6 Re^{1/2} Sc ^{1/3}
+  }\end{equation}
+  
+  ここでRe数はスリップ速度を用いて
+  
+  \begin{equation}\protect\phantomsection\label{eq:Re}{
+  Re = \frac{\rho_{\mathrm{L}} |u_{\mathrm{G}} - u_{\mathrm{L}}| d}{\mu_{\mathrm{L}}}
+  }\end{equation}
+  
+  である．また，Sc数は液相の物性値から求めれ，
+  
+  \begin{equation}\protect\phantomsection\label{eq:Sc}{
+  Sc = \frac{\mu_{\mathrm{L}}}{\rho_{\mathrm{L}} D_{\mathrm{AB}}}
+  }\end{equation}
+  
+  である．Eq.~\ref{eq:Sh}における各係数や乗数はモデルによって多少前後する．ここでは最も簡単なRanz-Marshall型相関式を記載しているが，実際には多くのSh数モデルが提案されている．気泡と水槽のサイズ比や気泡形状，気泡プルームの特性（単一気泡かダブル気泡かなど），気泡表面の振動の有無などが重要な条件とみられる．
+  
+  Higbieの非定常浸透モデルでは\(k_{\mathrm{L}}\)は以下の式で表される．
+  
+  \begin{equation}\protect\phantomsection\label{eq:kL_higbie}{
+  k_{\mathrm{L}} = 2 \sqrt{
+    \frac{D_{\mathrm{AB}} u_{\mathrm{s}}}
+    {\pi d}
+  }
+  }\end{equation} このモデルでは\(20 < Re \le 500\)
+  程度の範囲で利用可能である．また，特に気泡径が小さい（3.6mm以下）場合によく合うことが知られている．
+  
+  \subsection{他成分の影響}\label{ux4ed6ux6210ux5206ux306eux5f71ux97ff}
+  
+  今回簡単なモデルとして，気泡から水への酸素の溶解のみを考えている．当然ながらこの場合気泡内の成分が抜けるのみなので気泡径は小さくなるまたは密度が減少する．今回のDeenらの実験を参考にしたモデルでは，気泡径が4
+  mmと固定しているため気泡密度が減少することになる．一方で気泡に対しては大気圧＋静水圧がかかるためここで力のバランスが崩れてしまう．シミュレーションを回す中でこのアンバランスによる破綻はおきていないため，大きな問題にはならないかも知れないが，水槽高さが高く，気泡の水中滞留時間が長い場合は問題が起きる可能性がある．本質的には窒素やCO2などの他の成分の移動もモデルに含める必要があると思われる．
+  
+  \section{Ansys
+  Fluentの注意点}\label{ansys-fluentux306eux6ce8ux610fux70b9}
+  
+  \subsection{境界条件の設定}\label{ux5883ux754cux6761ux4ef6ux306eux8a2dux5b9a}
+  
+  入口境界（BC）と出口境界をそれぞれ設定する．入口境界ではできる限り既知の物理量を与える．速度境界が一般的であるものの，質量流量境界のほうが数値安定性が高いらしい．一方出口境界はできる限り計算に対して拘束条件を課さないことを念頭に決める．一般には静圧条件を与えることが多いようだが，気泡塔においては連続相と分散相のそれぞれで考える必要がある．また，水面の自由表面における挙動を考える必要も出てくる．そのため，出口BCは特に重要である．
+  
+  さて，出口境界を決めるにあたって，当然ながらドメインの設定が先に来る．一般にはOpenドメインとClosedドメインの二つのアプローチがある{[}\^{}meshing\_approach){]}．
+  1.
+  Openドメイン：ドメイン中に液相と気相のそれぞれを設定する．この場合，気相部での流れもあるため，気相部を十分に大きく取る必要がある．気相上部のドメイン出口で古典的な出口条件を課す（おそらく静圧条件と思われる）．この出口条件においては当然ながら液相が逆流してくることはあり得ないので，volume
+  fractionとして気相のみとする．このOpenドメインでは水面の自由境界も計算されることになるため，数値不安定性に課題がある．
+  2.
+  Closedドメイン：ドメイン中をすべて液相で満たす．出口は実験の初期水面高さに設定する．非圧縮性仮定のもとで，ここに分散相を供給することになるが，ドメイン内は液相で満たされているために分散相の入る場所がなく保存則が成立しない．そのため，保存則に対して特別な取り扱いが必要となるが，これは商用ソフトを使用する場合はソフトによって自動的に実行される．Closedドメインでは出口境界としてdegassingまたはgas-only
+  outletにより分散相のみをドメインから排出するのが一般的なよう．この場合液相に対しては液面がドメイン出口に固定され，free
+  slip
+  wallとして扱われる．自由表面を解く必要がなく，気相部もないためにセル数を少なくでき，計算効率を高めることができる．また，このドメインにおいては出口境界で逆流が発生することがある．この際，気相が逆流してくることは物理モデルとしてあり得ないので，その点注意して設定する．すなわち，volume
+  fractionを液相のみとする．
+  
+  いずれのドメインや境界条件においても設定上の注意点はそれぞれあるものの，気泡塔計算において十分に長い計算時間（1000秒以上！）をとり時間平均などの処理を行えば出口境界条件は計算結果に影響しないことがわかっている．計算コストの観点からはClosedドメインでDegassing条件を与えるのが最もシンプルでよかろうと思われる{[}11{]}．
+  
+  \subsubsection{Degassing条件}\label{degassingux6761ux4ef6}
+  
+  Degassingの場合，気相のみ境界を通過し，液相についてはfree slip
+  wallの扱いになる．気相の通過はドメインから消失として表現される．これは隣接セル内の気相を液体に置き換えるまたはシンク項（これよくわからない）に消失させるような計算を行う．つまり，各セル内の堆積計算で完結しており，ドメインは完全に閉じた状態になっている．そのため，逆流という概念が存在しない．
+  
+  \subsection{ノードかセルか}\label{ux30ceux30fcux30c9ux304bux30bbux30ebux304b}
+  
+  Fluentはセル中心型のソフトであり，直接的に解かれている値はセル中心である．ノードの値を出力することもできるが，この値はセル中心間の補完値である．そのため，場の勾配が強い場合（衝撃波や剥離など）はセル中心の値とノードの値とで大きな差が出ることがある．気泡塔程度であればどちらでも大きな問題ではなかろうと思われる．
+  
+  \subsection{計算実行前に行うこと}\label{ux8a08ux7b97ux5b9fux884cux524dux306bux884cux3046ux3053ux3068}
+  
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
   \tightlist
   \item
-    OA: Outer Air. Air sent from outdoors to the total heat exchanger
+    Check Case：Run calculationの前にCheck
+    Caseから今の設定での一般的な推奨設定を確認できる．推奨設定に従わなくても計算を回すことはできるが，特に知識が少ない現段階では基本的に従っておくことがよいだろう．また，物理的な不整合も指摘してくれる．
   \item
-    SA: Supply Air. Air supplied indoors after passing through the total
-    heat exchanger
+    Input summary：Input
+    summaryによってCaseファイルの設定を一覧で出力可能である．ただし，モデル内の詳細については出力できない様子．混相流に関してはConsoleに　/report/mphase-summary　と入力することで現在の計算設定に対しての推奨設定を出力してくれる．ただし，計算データが必要．summaryのあとに0,
+    1, 2のいずれかを入力することで詳細レベルを指定可能．
   \item
-    RA: Return Air. Air sent from indoors to the total heat exchanger
+    Input summaryからModified Settings
+    Summaryを確認できる．ファイルを開いた時点をDefaultとして，そこからの変更を見れる．Consoleの上に表示されるGraphicsの横のタブのModiffied
+    Seetings Summaryに表示される．
   \item
-    EA: Exhausted Air. Air discharged outdoors after passing through the
-    total heat exchanger
-  \end{itemize}
+    Autosave：計算が発散したときなどに原因究明が必要なので，発散前のdatファイルを保存することが望ましい．全部保存すると大変な量になる（1datファイルで数MBはある）ので，Retain
+    only the most recent
+    filesオプションをonにして，発散直前の3-5個だけ保存するようにする．個人的な設定としては保存頻度をtime
+    stepの1\%ずつにして，最後の5file分を保存するのがいいんじゃないかと思ってる．
+  \end{enumerate}
   
-  \begin{figure}
-  \centering
-  \pandocbounded{\includegraphics[keepaspectratio,alt={Shematic of a enthalpy exchanger element (corrugate/ cross flow) .}]{C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_flow_schematics.png}}
-  \caption{Shematic of a enthalpy exchanger element (corrugate/ cross
-  flow) .}\label{fig:POL_flow_schematics}
-  \end{figure}
-  
-  If temperature is represented by \(T\) and humidity by \(\omega\), the
-  corresponding exchange effectiveness values \(\eta_{\mathrm{t}}\) and
-  \(\eta_{\mathrm{h}}\) can be expressed as follows.
-  
-  \begin{equation}\protect\phantomsection\label{eq:temperature_exchange_eff}{
-  \eta_{\mathrm{T}} = \frac{T_{\mathrm{OA}} - T_{\mathrm{SA}}}
-  {T_{\mathrm{OA}} - T_{\mathrm{RA}}}
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:humid_exchange_eff}{
-  \eta_{\mathrm{\omega}} = \frac{\omega_{\mathrm{OA}} - \omega_{\mathrm{SA}}}
-  {\omega_{\mathrm{OA}} - \omega_{\mathrm{RA}}}
-  }\end{equation}
-  
-  \subsection{\texorpdfstring{Representation of moisture flux using
-  \(\omega\)}{Representation of moisture flux using \textbackslash omega}}\label{representation-of-moisture-flux-using-omega}
-  
-  The most important aspect of this analysis is the modeling of moisture
-  transport through the membrane. The model described below was developed
-  by J.L. Niu and L.Z. Zhang in 2001 {[}1{]} and has continued to be used
-  up to the latest paper in 2025 {[}2{]}. In this model, three
-  representations of moisture appear: the absolute humidity in air
-  \(\omega\), the relative humidity in air \(\phi\), and the absolute
-  humidity in the membrane \(\theta\). Their definitions are as follows.
-  
-  \begin{equation}\protect\phantomsection\label{eq:def_omega}{
-  \omega = \frac{m_{\mathrm{vapor}}}{m_{\mathrm{dry , air}}}
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:def_phi}{
-  \phi = \frac{p_{\mathrm{vapor}}}{p_{\mathrm{sat}}}
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:def_theta}{
-  \theta = \frac{m_{\mathrm{vapor}}}{m_{\mathrm{dry , membrane}}}
-  }\end{equation}
-  
-  Here, \(m\) denotes mass and \(p\) denotes pressure. In Fluent, the mass
-  fraction \(Y\) of each constituent species is generally used. That is,
-  
-  \begin{equation}\protect\phantomsection\label{eq:def_Y}{
-  Y_{\mathrm{vapor}} = \frac{m_{\mathrm{vapor}}}{m_{\mathrm{dry , air}} + m_{\mathrm{vapor}}}
-  }\end{equation} For simplicity, the subscripts vapor, membrane, and air
-  are hereafter denoted as v, m, and a, respectively. The absolute
-  humidity \(\omega\) and relative humidity \(\phi\) in air, and the
-  absolute humidity \(\omega\) and mass fraction \(Y\), can be converted
-  using the following equations.
-  
-  \begin{equation}\protect\phantomsection\label{eq:p_to_omega}{
-  p_{\mathrm{v}} = \frac{\omega p_{\mathrm{tot}}}{\omega + 0.622}
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:phi_to_omega}{
-  \begin{aligned}
-  \frac{\phi}{\omega} &= A - 1.61\phi \\
-  &\approx  A\\
-  A &= \exp \left( 5294/T\right) \times 10^{-6}
-  \end{aligned}
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:omega_to_Y}{
-  \omega = \frac{Y_{\mathrm{v}}}{1-Y_{\mathrm{v}}}
-  }\end{equation}
-  
-  Here, the second term in Eq. Eq.~\ref{eq:phi_to_omega} is 5\% or less
-  and is generally neglected {[}1{]}. So far, four representations of
-  moisture have appeared. In the field of total heat exchange, it is
-  common practice to use \(\omega\). On the other hand, in numerical
-  analysis, \(Y\) is often used. As of 2013, there is a statement that
-  “moisture transfer in porous media cannot be calculated well. Therefore,
-  each researcher develops their own code or runs Fluent using UDFs”
-  {[}3{]}. Since moisture transport in the fluid region of a porous medium
-  in Fluent, namely simple advection-diffusion of water vapor, appears to
-  have already been supported as a standard function at that time, this
-  statement is considered to refer to the treatment of water vapor that is
-  adsorbed and diffuses in the solid part of the porous material. In
-  {[}2{]} as well, it is stated that even in version 2024R1, the mass
-  transfer model inside the membrane is not handled, and a UDF was used.
-  Therefore, in this chapter, the modeling is first carried out using the
-  \(\omega\) representation, and then it is converted into a form using
-  \(Y\) in order to make it compatible with Fluent. The following
-  assumptions are made for the modeling.
+  \subsection{計算}\label{ux8a08ux7b97}
   
   \begin{enumerate}
   \def\labelenumi{\arabic{enumi}.}
   \item
-    Moisture transport in the in-plane flow direction is neglected. This
-    is based on the calculation results in reference {[}1{]}. Since this
-    assumption may break down depending on the operating conditions, it
-    should be confirmed that the Pe number is 2 or larger.
+    .dat.h5ファイルがあればその値を初期値として計算を実行することができる．混相流計算において，例えばinhomogeneous
+    Eulerianは初期値に対して敏感なのでまずはhomogeneousのmixtureである程度計算を進めてからその値を初期値としてinhomogeneous
+    Eulerianを実行することが推奨されている．
   \item
-    Moisture absorption in the membrane is in equilibrium.
+    Fluentでは基本的にgauge
+    pressureで計算されており，基準圧力であるoperating
+    pressureがPhysics→Solver内のOperating
+    Conditionsで指定されている．ここで水面に基準圧力を設定する．デフォルトでは水槽底面に基準圧力が設定されているため，静水圧分だけのオフセットが出る．今回水高さは0.45mなので約4.4kPaのオフセットが乗ることになり，酸素溶解量にも数％の影響が出てしまう．
   \item
-    The moisture diffusion coefficient in the membrane \(D_{\mathrm{m}}\)
-    is constant.
+    Fluent内では標準で質量輸送はサポートされている．これを見つける前にudfを作成してしまったので標準機能がどこまで対応できるか不明である．
   \item
-    The heat absorption and heat release during moisture absorption and
-    desorption are constant and have the same value.
+    混相流モデルでは物理的には気相が存在しないセル中でも気相速度成分のメモリが確保されている．このメモリに格納される数値として，数値不安定的な値がでることがある．例えば運動量保存を解いて速度を計算している場合，微小気相体積（例えばvolume
+    fractionが1E-10など）の際に数値計算的な不安定性により大きな速度が局所的に表れるなどである．このため，一定以下のvolume
+    fractionは例外処理により物理的整合性を保つことが望ましい．
   \end{enumerate}
   
-  First, since moisture absorption in the membrane is in equilibrium, the
-  flux from the supply-side air to the membrane \(j_{\mathrm{s}}\), the
-  flux inside the membrane \(j_{\mathrm{m}}\), and the flux from the
-  membrane to the exhaust-side air \(j_{\mathrm{e}}\) are equal. That is,
-  
-  \begin{equation}\protect\phantomsection\label{eq:flux_equ}{
-  j_{\mathrm{s}} = j_{\mathrm{m}} = j_{\mathrm{e}}
-  }\end{equation}
-  
-  Here, the unit of flux is \([\mathrm{kg ; m^{-2} ; s^{-1}}]\). The
-  moisture fluxes in air, \(j_{\mathrm{s}}\) and \(j_{\mathrm{e}}\), are
-  expressed by Fick’s law regardless of whether they are on the intake
-  side or the exhaust side. That is,
-  
-  \begin{equation}\protect\phantomsection\label{eq:fick_law}{
-  j_{\mathrm{s}} =j_{\mathrm{e}} = - \rho_{\mathrm{a}} D_{\mathrm{a}} \frac{\partial \omega}{\partial z}
-  }\end{equation}
-  
-  Here, \(D\) is the diffusion coefficient with respect to \(\omega\)
-  {[}\(\mathrm{m^2 ; s^{-1}}\){]}, and it should be noted that it takes a
-  different value when converted to \(Y\), as described later. Next,
-  consider the flux inside the membrane \(j_{\mathrm{m}}\). To do this, it
-  is necessary to obtain the relationship between \(\omega\) in the air
-  near the membrane and \(\theta\) at the membrane surface. This
-  \(\theta\) strongly depends on the membrane material properties and
-  humidity, and must be determined experimentally. For example, an
-  analyzer such as a Vapor absorption analyzer - Hydrosorb-1000 {[}4{]}
-  can be used. Through this analysis, a sorption curve is obtained. The
-  sorption curve takes the relative humidity \(\phi\) on the horizontal
-  axis and the absolute humidity of the membrane \(\theta\) on the
-  vertical axis, and is expressed by the following equation.
-  
-  \begin{equation}\protect\phantomsection\label{eq:sorption_curve}{
-  \theta = \frac{w_{\mathrm{max}}}
-  {1-C+C/\phi}
-  }\end{equation}
-  
-  Here, \(w_{\mathrm{max}}\) is \(\theta\) when \(\phi\) is 100\%. \(C\)
-  is a variable that mainly represents the type of membrane or hygroscopic
-  material. For example, the most commonly used silica gel has
-  \(C \approx 1\), whereas polymer materials show values of approximately
-  \(C \approx 10\). Sorption curves for each value of \(C\) are shown in
-  Fig.~\ref{fig:POL_sorption_curve}.
-  
-  \begin{figure}
-  \centering
-  \pandocbounded{\includegraphics[keepaspectratio,alt={Sorption curves with representative C numbers.}]{C:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_sorption_curve.png}}
-  \caption{Sorption curves with representative \(C\)
-  numbers.}\label{fig:POL_sorption_curve}
-  \end{figure}
-  
-  By experimentally determining this sorption curve, \(\theta\) at the
-  membrane surface is obtained. When this moisture diffuses through the
-  membrane, if the diffusion coefficient of the membrane is denoted by
-  \(D_{\mathrm{m}} ; [\mathrm{m^2 ; s^{-1}}]\), the moisture flux inside
-  the membrane is expressed as
-  
-  \begin{equation}\protect\phantomsection\label{eq:vapor_flux_in_membrane}{
-  j_{\mathrm{m}} = - \rho_{\mathrm{m}} D_{\mathrm{m}}\frac{\partial \theta}{\partial z}
-  }\end{equation}
-  
-  For example, the diffusion coefficient of paper is approximately
-  \(6 \times 10^{-12} ; \mathrm{m^2 ; s^{-1}}\). Since this equation is
-  written in terms of \(\theta\), it must be converted to \(\omega\). For
-  this conversion, the membrane resistance \(r_{\mathrm{m}}\), which also
-  accounts for the membrane thickness, is expressed as
-  
-  \begin{equation}\protect\phantomsection\label{eq:moisture_resistance}{
-  r_{\mathrm{m}} =\frac{\rho_{\mathrm{a}}}{\rho_{\mathrm{m}}} \frac{\delta}{D_{\mathrm{m}}} \psi
-  }\end{equation}
-  
-  \begin{equation}\protect\phantomsection\label{eq:CMDR}{
-  \psi = \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1}
-  }\end{equation}
-  
-  Here, the values of \(A\) and \(\phi\) on the supply-air side are used.
-  The product \(\rho_{\mathrm{m}}D_{\mathrm{m}}\) is sometimes treated
-  collectively as the moisture permeability coefficient
-  \(K [\mathrm{kg ; m^{-1} ; s^{-1}}]\). See reference {[}1{]} for
-  details. Here, \(\psi\) is called the coefficient of moisture diffusive
-  resistance. Using Eq. Eq.~\ref{eq:phi_to_omega}, this CMDR can be
-  transformed as
-  
-  \begin{equation}\protect\phantomsection\label{eq:CMDR_rev}{
-  \begin{aligned}
-  \psi &= \left(A\frac{\partial \theta}{\partial \phi} \right)^{-1} \
-  &=  \left( A \frac{\partial \theta}{\partial \omega} \frac{\partial \omega}{\partial \phi} \right) ^{-1} \
-  &= \left( \frac{\partial \theta}{\partial \omega} \right)^{-1}
-  \end{aligned}
-  }\end{equation}
-  
-  Therefore, using Eqs. Eq.~\ref{eq:vapor_flux_in_membrane},
-  Eq.~\ref{eq:moisture_resistance}, and Eq.~\ref{eq:CMDR_rev}, the
-  moisture flux inside the membrane becomes
-  
-  \begin{equation}\protect\phantomsection\label{eq:vapor_flux_in_membrane_rev}{
-  j_{\mathrm{m}} = -\frac{\rho_{\mathrm{a}} \delta }{r_{\mathrm{m}}}\frac{\partial \omega}{\partial z}
-  }\end{equation} Thus, Eq.~\ref{eq:flux_equ}, Eq.~\ref{eq:fick_law}, and
-  Eq.~\ref{eq:vapor_flux_in_membrane_rev} express all moisture fluxes:
-  from the supply-side air to the membrane, from the inside of the
-  membrane to the outside of the membrane, and from the membrane to the
-  exhaust-side air.
-  
-  By discretizing and solving Eq.~\ref{eq:flux_equ},
-  \(\omega_{\mathrm{m}}\) can be expressed only in terms of the air-side
-  \(\omega_{\mathrm{a}}\). For the discretization, the following
-  subscripts are defined.
+  \subsection{UDF}\label{udf}
   
   \begin{itemize}
   \item
-    as: air at supply flow
+    混相流モデルでは最上位のSuperdomainとその下に各相（primary
+    phaseやSecondary
+    phase）のSubdomainが存在する．各domainに対してthreadが存在し，Subdomainのthread（Sub-thread）はTHREAD\_SUB\_THREAD(Super-thread,
+    Sub-thread)関数によって取得される．
   \item
-    ms: membrane surface at supply side
-  \item
-    me: membrane surface at exhaust side
-  \item
-    ae: air at exhaust flow Also, let the distance from the membrane
-    surface to the center of the adjacent space cell be \(\Delta z\), and
-    let the membrane thickness be \(\delta\). Then,
+    質量移動をモデル化する際，UDFでは組み込み関数としてDEFINE\_MASS\_TRANSFERがあり，引数は以下に述べる通りである．Ansys
+    Fluentのソルバーは計算中、ドメイン内のすべてのセルを順番に走査（ループ）しており、DEFINE\_MASS\_TRANSFER
+    や DEFINE\_PROPERTY
+    のようなモデル固有のマクロは、「現在計算対象となっているセル」ごとに呼び出されるため，udfでloopをする必要がない．逆に各iterationの最初やon
+    demandなど計算プロシージャの中で一回しか呼び出されない関数は場合によってはloopする必要がある．
+  
+    \begin{itemize}
+    \tightlist
+    \item
+      udf\_name：UDFが認識するための関数名．他の関数との衝突を避けるため，my\_などのprefixをつけることが推奨される．
+    \item
+      cell：計算対象となるセル．
+    \item
+      thread：super domainのthread（Super thread）
+    \item
+      from\_p\_index：相インデックス．Primary phaseが0，Secondary
+      phaseが1となる．fromとtoで成分移動の方向を指定する．例えば今回のように気泡から液相への移動を考える場合はfrom\_p\_index
+      = 1（secondary phase），to\_p\_index = 0 （primary phase）となる．
+    \item
+      from\_s\_index：成分インデックス．対象となる相が混合材料の場合に成分ごとのインデックスをして指定する．今回であれば気泡側がO2-N2でO2についての移動を考えるためインデックスとしては0．インデックスは混合材料のFluent
+      GUIで設定した成分の並び順で定義される．
+    \item
+      to\_p\_index
+    \item
+      to\_s\_index
+    \end{itemize}
+  
+    このうち，コード上でユーザー側が指定すべき値は各定数（ヘンリー定数，液膜側物質移動係数，移動成分のモル質量など）およびudf\_nameのみである．他の引数はFluent側から自動で引き渡されるため，ハードコードする必要はない．物質移動では両相に対して定義されている相のみが対応となる．例えば液相にH2OとO2,気相にN2とO2の混合材料が定義されている場合，両相に定義されているO2のみの移動が計算される．
   \end{itemize}
   
-  \begin{equation}\protect\phantomsection\label{eq:diff_flux_supply}{
-  j_{\mathrm{s}} = - \rho_{\mathrm{as}} D_{\mathrm{as}}
-  \frac{\omega_{\mathrm{ms}}-\omega_{\mathrm{as}}}{\Delta z_{\mathrm{s}}}
-  }\end{equation}
+  \subsection{UDM}\label{udm}
   
-  \begin{equation}\protect\phantomsection\label{eq:diff_flux_membrane}{
-  j_{\mathrm{m}} = - \frac{\rho_{\mathrm{as}} \delta }{r_{\mathrm{m}}}
-  \frac{\omega_{\mathrm{me}}-\omega_{\mathrm{ms}}}{\delta}
-  }\end{equation}
+  UDFはUser Defined
+  Functionとして関数を定義する機能である．一方のUDMはUser Defined
+  MemoryとしてFluent標準ではサポートしていない物理量などを保存するためのメモリ領域を設定する機能である．これはFluent
+  GUIのuser-defined \textgreater{}
+  Memoryから必要数だけ設定できる．上限は500．通常，数10個程度のUDMであれば計算時間に影響を与えるほどではないとされている．
+  UDMの変数名はデフォルトでは0,1,2とナンバリングされているのみであり，UDF上でもこのように利用する．例えばn番目のUDMにアクセスするためにはC\_UDMI(cell,thread,n)というマクロを使用する．ただ，このままではGUI上では不便なので以下のようにUDF内で名前を定義できる．
   
-  \begin{equation}\protect\phantomsection\label{eq:diff_flux_exhaust}{
-  j_{\mathrm{e}} = - \rho_{\mathrm{ae}} D_{\mathrm{ae}}
-  \frac{\omega_{\mathrm{ae}}-\omega_{\mathrm{me}}}{\Delta z_{\mathrm{e}}}
-  }\end{equation}
+  \begin{verbatim}
+  DEFINE_EXECUTE_ON_LOADING(setup_udm_names, libname)
+  {
+      Set_User_Memory_Name(0, "kl");
+      Set_User_Memory_Name(1, "mdot_from_bubble");
+      Set_User_Memory_Name(2, "Sh");
+      Set_User_Memory_Name(3, "y-o2-sat");
+      Set_User_Memory_Name(4, "y-o2-liq");
+      Set_User_Memory_Name(5, "y-o2-delta");
   
-  Solving \(j_{\mathrm{s}} + j_{\mathrm{e}} = 0\) and
-  \(j_{\mathrm{s}} + j_{\mathrm{m}} = 0\) gives
+      Message("\nUDM names have been updated for library: %s\n", libname);
+  }
+  \end{verbatim}
   
-  \begin{equation}\protect\phantomsection\label{eq:omega_me}{
-  \omega_{\mathrm{me}} = \omega_{\mathrm{ae}} + \alpha \left(
-  \omega_{\mathrm{as}} - \omega_{\mathrm{ms}}
-  \right)\
-  \alpha = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D_{\mathrm{as}}}{D_{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
-  }\end{equation}
-  
-  and
-  
-  \begin{equation}\protect\phantomsection\label{eq:omega_ms}{
-  \omega_{\mathrm{ms}} =\frac{
-  \beta \omega_{\mathrm{ae}} + (\alpha \beta  + 1)\omega_{\mathrm{as}}
-  }{
-  \beta + \alpha \beta + 1
-  }\
-  \beta = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D_{\mathrm{m}}}{D_{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
-  }\end{equation}
-  
-  These two equations allow \(\omega\) at each membrane surface to be
-  expressed in terms of the air-side \(\omega\).
-  
-  \subsubsection{\texorpdfstring{Representation of moisture flux using
-  \(Y\)}{Representation of moisture flux using Y}}\label{representation-of-moisture-flux-using-y}
-  
-  Among the variables introduced so far, the quantities that can be
-  treated as constant physical properties are the densities \(\rho\) and
-  the diffusion coefficients \(D\). Among these, the diffusion coefficient
-  data held in Fluent are based on the mass-fraction gradient. Up to this
-  point, Fick’s law has been expressed using \(\omega\) in accordance with
-  the convention in the field of heat exchangers. Rewriting it into a form
-  compatible with Fluent gives
-  
-  \begin{equation}\protect\phantomsection\label{eq:fick_law_in_Y}{
-  \begin{aligned}
-  j &= - \rho D \frac{\partial \omega}{\partial z}\
-  &= - \rho D \frac{\partial Y}{\partial z} \frac{\partial \omega}{\partial Y}\
-  &= - \rho \frac{D}{(1-Y)^2} \frac{\partial Y}{\partial z}
-  \end{aligned}
-  }\end{equation} Thus, if the diffusion coefficient based on \(Y\) is
-  denoted by \(D'\), using \(D' = D / (1-Y)^2\) gives
-  
-  \begin{equation}\protect\phantomsection\label{eq:fick_law_in_Y_rev}{
-  \begin{aligned}
-  j = - \rho D' \frac{\partial Y}{\partial z}
-  \end{aligned}
-  }\end{equation} Therefore, it should be noted that a correction is
-  applied between the diffusion coefficient based on the mass fraction
-  \(Y\) and that based on the absolute humidity \(\omega\). This
-  correction is generally on the order of a few percent. Rewriting Eqs.
-  Eq.~\ref{eq:omega_me} and Eq.~\ref{eq:omega_ms} using this diffusion
-  coefficient \(D'\) gives
-  
-  \begin{equation}\protect\phantomsection\label{eq:Y_me}{
-  Y_{\mathrm{me}} = Y_{\mathrm{ae}} + \alpha \left(
-  Y_{\mathrm{as}} - Y_{\mathrm{ms}}
-  \right)\
-  \alpha' = \frac{\rho_{\mathrm{as}}}{\rho_{\mathrm{ae}}} \frac{D'*{\mathrm{as}}}{D'*{\mathrm{ae}}} \frac{\Delta z_{\mathrm{ae}}}{\Delta z_{\mathrm{as}}}
-  }\end{equation}
-  
-  and
-  
-  \begin{equation}\protect\phantomsection\label{eq:Y_ms}{
-  Y_{\mathrm{ms}} =\frac{
-  \beta Y_{\mathrm{ae}} + (\alpha \beta  + 1)Y_{\mathrm{as}}
-  }{
-  \alpha + \alpha \beta + 1
-  }\
-  \beta' = \frac{\rho_{\mathrm{m}}}{\rho_{\mathrm{as}}} \frac{D'*{\mathrm{m}}}{D'*{\mathrm{as}}} \frac{\Delta z_{\mathrm{as}}}{\delta} \frac{1}{\psi}
-  }\end{equation}
-  
-  Although the discussion so far has proceeded starting from \(\omega\),
-  in general, the \(D'\) used here should be regarded as the physical
-  diffusion coefficient data provided. On that basis, if conversion to
-  \(\omega\) or other variables is required, the differential coefficients
-  should be converted each time.
-  
-  \subsection{Evaluation of membrane
-  performance}\label{evaluation-of-membrane-performance}
-  
-  Based on the theory above, the physical quantities that must be measured
-  for modeling are as follows.
-  
-  \begin{enumerate}
-  \def\labelenumi{\arabic{enumi}.}
-  \item
-    Sorption curve: This is the most important curve connecting the
-    relative humidity \(\phi\) of the air near the membrane and the
-    moisture uptake \(\theta\) inside the membrane. Although the effects
-    of temperature and pressure on this curve need to be investigated,
-    since \(\phi\) itself has temperature dependence, it is desirable to
-    obtain the curve for each operating condition defined in WP1.
-  \item
-    Moisture diffusion coefficient inside the membrane \(D'*\mathrm{m}\):
-    In general, the diffusion coefficient is a function of temperature and
-    moisture content, but it is often treated as a constant. The effects
-    of temperature and moisture content need to be investigated. If it is
-    difficult to measure \(D'_{\mathrm{m}}\) alone, measuring the moisture
-    permeability performance of the membrane as a whole is also
-    sufficient. Although this probably depends on the measurement method,
-    it corresponds to one of \(r_{\mathrm{m}}\), \(r'_{\mathrm{m}}\),
-    \(\rho_{\mathrm{m}} D_{\mathrm{m}}\), or
-    \(\rho_{\mathrm{m}} D'_{\mathrm{m}}\).
-  \item
-    Membrane thickness \(\delta\): Since \(\delta\) has a first-order
-    effect on \(r_{\mathrm{m}}\), its error directly appears as an error
-    in the membrane resistance. \(\delta\) is generally on the order of 10
-    μm, so precise measurement is required. In addition, it is necessary
-    to confirm how much it changes between the dry and moisture-absorbed
-    states.
-  \item
-    Membrane density \(\rho_{\mathrm{m}}\): The apparent density in the
-    dry state is measured. The apparent density includes voids and is
-    therefore smaller than the density of the material itself. By
-    considering the density of the material itself together with this
-    value, the porosity can also be obtained.
-  \item
-    Thermal conductivity \(k_{\mathrm{m}}\): The thermal conductivity
-    representing sensible heat transfer in the membrane is measured.
-    However, the importance of this measurement is low. The overall
-    thermal resistance accounts for both the heat transfer coefficient
-    from the air to the membrane and this thermal conductivity, but in
-    general, the effect of the membrane thermal conductivity on the
-    overall thermal resistance is small. For example, even changing the
-    membrane from paper to metal is said to improve it by only about 5\%.
-    Therefore, the dominant factor in sensible heat exchange between
-    membranes is the heat transfer coefficient, while the thermal
-    conductivity is auxiliary {[}\textbf{undated-uj?}{]}.
-  \end{enumerate}
+  ここで指定した名前はFluent
+  GUI上で有効である．ちなみにDEFINE\_EXECUTE\_ON\_LOADINGマクロはUDFをloadしたときに一度だけ自動で適用されるコードであり，ここで初期設定をまとめるのが良いと思われる．
   
   \protect\phantomsection\label{refs}
   \begin{CSLReferences}{0}{0}
-  \bibitem[\citeproctext]{ref-Niu2001-es}
+  \bibitem[\citeproctext]{ref-Zhang2001-es}
   \CSLLeftMargin{{[}1{]} }%
-  \CSLRightInline{J.L. Niu, L.Z. Zhang, Membrane-based enthalpy exchanger:
-  Material considerations and clarification of moisture resistance, J.
-  Memb. Sci. 189 (2001) 179–191.}
+  \CSLRightInline{L. Zhang, M. Shoji, Aperiodic bubble formation from a
+  submerged orifice, Chem. Eng. Sci. 56 (2001) 5371–5381.}
   
-  \bibitem[\citeproctext]{ref-Liu2025-mz}
+  \bibitem[\citeproctext]{ref-Deen2000-pw}
   \CSLLeftMargin{{[}2{]} }%
-  \CSLRightInline{Y. Liu, D.-C. Mo, S.-S. Lyu, Vortex-induced turbulence
-  optimized membrane enthalpy exchanger: Dynamic humidity modulation and
-  coupled heat–mass transfer enhancement, Energies 18 (2025) 2892.}
+  \CSLRightInline{N. Deen, B. Hjertager, T. Solberg, Comparison of {PIV}
+  and {LDA} measurement methods applied to the gasliquid flow in bubble
+  column, (2000).}
   
-  \bibitem[\citeproctext]{ref-Al-Waked2013-nv}
+  \bibitem[\citeproctext]{ref-Deen2001-ed}
   \CSLLeftMargin{{[}3{]} }%
-  \CSLRightInline{R. Al-Waked, M.S. Nasif, G. Morrison, M. Behnia, {CFD}
-  simulation of air to air enthalpy heat exchanger, Energy Convers. Manag.
-  74 (2013) 377–385.}
+  \CSLRightInline{N.G. Deen, T. Solberg, B.H. Hjertager, Large eddy
+  simulation of the {Gas–Liquid} flow in a square cross-sectioned bubble
+  column, Chem. Eng. Sci. 56 (2001) 6341–6349.}
   
-  \bibitem[\citeproctext]{ref-Zhang2008-sa}
+  \bibitem[\citeproctext]{ref-Yang2022-ke}
   \CSLLeftMargin{{[}4{]} }%
-  \CSLRightInline{L. Zhang, C. Liang, L. Pei, Heat and moisture transfer
-  in application scale parallel-plates enthalpy exchangers with novel
-  membrane materials, J. Memb. Sci. 325 (2008) 672–682.}
+  \CSLRightInline{H. Yang, J. Xue, L. Li, X. Li, P. Lin, Z. Zhu, Modeling
+  of bubbly flow using a combined volume of fluid and discrete bubble
+  model: Investigation on interphase forces, J. Appl. Fluid Mech. 15
+  (2022).}
+  
+  \bibitem[\citeproctext]{ref-Xue2017-gb}
+  \CSLLeftMargin{{[}5{]} }%
+  \CSLRightInline{J. Xue, F. Chen, N. Yang, W. Ge, {Eulerian–Lagrangian}
+  simulation of bubble coalescence in bubbly flow using the spring-dashpot
+  model, Chin. J. Chem. Eng. 25 (2017) 249–256.}
+  
+  \bibitem[\citeproctext]{ref-Subburaj2023-bv}
+  \CSLLeftMargin{{[}6{]} }%
+  \CSLRightInline{R. Subburaj, Y. Tang, N.G. Deen, An improved lift model
+  for euler-lagrange simulations of bubble columns, Chem. Eng. Sci. 265
+  (2023) 118182.}
+  
+  \bibitem[\citeproctext]{ref-Wang2016-uc}
+  \CSLLeftMargin{{[}7{]} }%
+  \CSLRightInline{Q. Wang, W. Yao, Computation and validation of the
+  interphase force models for bubbly flow, Int. J. Heat Mass Transf. 98
+  (2016) 799–813.}
+  
+  \bibitem[\citeproctext]{ref-Ansys2025-qg}
+  \CSLLeftMargin{{[}8{]} }%
+  \CSLRightInline{I. Ansys, Ansys fluent theory guide, ANSYS, Canonsburg,
+  PA, 2025.}
+  
+  \bibitem[\citeproctext]{ref-2018-nc}
+  \CSLLeftMargin{{[}9{]} }%
+  \CSLRightInline{佐々木翔平., 気泡塔内ガスホールドアップに関する研究, PhD
+  thesis, 神戸大学, 2018.}
+  
+  \bibitem[\citeproctext]{ref-1999-jx}
+  \CSLLeftMargin{{[}10{]} }%
+  \CSLRightInline{化学工学会, Henry constant table (japanese), 丸善,
+  1999.}
+  
+  \bibitem[\citeproctext]{ref-Schlegel2025-ud}
+  \CSLLeftMargin{{[}11{]} }%
+  \CSLRightInline{F. Schlegel, S. Hänsch, B. Krull, R. Meller, S.P. Kota,
+  Comparison of upper boundary treatments for bubble column simulations
+  with the two-fluid model, Exp. Comput. Multiph. Flow 7 (2025) 227–244.}
   
   \end{CSLReferences}
   
@@ -588,7 +665,7 @@
 [INFO] [makePDF] LaTeX output
   This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
    restricted system commands enabled.
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.tex
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.tex
   LaTeX2e <2025-11-01>
   L3 programming layer <2026-01-19>
    (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
@@ -944,63 +1021,50 @@
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
   No file input.toc.
+  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
   
-  LaTeX Warning: Reference `fig:POL_flow_schematics' on page 1 undefined on input
-   line 143.
+  LaTeX Warning: Reference `fig:Water_pressure_impact' on page 2 undefined on inp
+  ut line 179.
   
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<c:/Users/Masay
-  a/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_flow_schematics.png>]
+  [2<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Water_pressure
+  _impact.png>]
   
-  LaTeX Warning: Reference `eq:phi_to_omega' on page 2 undefined on input line 23
-  1.
-  
-  [2]
-  
-  LaTeX Warning: Reference `fig:POL_sorption_curve' on page 3 undefined on input 
-  line 309.
-  
-  [3<c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_sorption_c
-  urve.png>]
-  
-  LaTeX Warning: Reference `eq:phi_to_omega' on page 4 undefined on input line 34
-  7.
+  LaTeX Warning: Reference `fig:bubble_detachment_mapping' on page 3 undefined on
+   input line 218.
   
   
-  LaTeX Warning: Reference `eq:vapor_flux_in_membrane' on page 4 undefined on inp
-  ut line 358.
+  Overfull \hbox (90.21516pt too wide) in paragraph at lines 218--220
+  []|\JY3/Meiryo(0)/m/n/10 オ |リ |フ |ィ |ス \TU/TeXGyreTermes(0)/m/n/10 Re
+   |\JY3/Meiryo(0)/m/n/10 数 |お |よ |び |無 |次 |元 |体 |積 |の |マ |
+  ッ |プ |を \TU/TeXGyreTermes(0)/m/n/10 Fig. []|\JY3/Meiryo(0)/m/n/10 に |
+  示 |す \TU/TeXGyreTermes(0)/m/n/10 [1][] [] 
+  
+  LaTeX Warning: Reference `eq:def_bubble_volume' on page 3 undefined on input li
+  ne 222.
+  
+  [3<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/bubble_detachm
+  ent_mapping.png>]
+  
+  LaTeX Warning: Reference `fig:interphase_forces_in_bubble_flow' on page 4 undef
+  ined on input line 242.
+  
+  [4<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Interphase_for
+  ces_in_bubble_flow.png>] [5]
+  
+  LaTeX Warning: Reference `eq:henry' on page 6 undefined on input line 367.
   
   
-  LaTeX Warning: Reference `eq:moisture_resistance' on page 4 undefined on input 
-  line 359.
+  LaTeX Warning: Reference `eq:Henry_t' on page 6 undefined on input line 367.
+  
+  [6]
+  
+  LaTeX Warning: Reference `eq:dC_dt' on page 7 undefined on input line 369.
   
   
-  LaTeX Warning: Reference `eq:CMDR_rev' on page 4 undefined on input line 359.
+  LaTeX Warning: Reference `eq:Sh' on page 7 undefined on input line 416.
   
-  
-  LaTeX Warning: Reference `eq:flux_equ' on page 4 undefined on input line 364.
-  
-  
-  LaTeX Warning: Reference `eq:fick_law' on page 4 undefined on input line 364.
-  
-  
-  LaTeX Warning: Reference `eq:vapor_flux_in_membrane_rev' on page 4 undefined on
-   input line 365.
-  
-  
-  LaTeX Warning: Reference `eq:flux_equ' on page 4 undefined on input line 370.
-  
-  [4]
-  
-  LaTeX Warning: Reference `eq:omega_me' on page 5 undefined on input line 455.
-  
-  
-  LaTeX Warning: Reference `eq:omega_ms' on page 5 undefined on input line 455.
-  
-  [5] [6] (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux)
+  [7] [8] [9] [10] [11]
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
   
   LaTeX Warning: There were undefined references.
   
@@ -1008,22 +1072,24 @@
   LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
   
   )
-   2613 words of node memory still in use:
-     11 hlist, 2 vlist, 5 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_
-  kern, 4 glyph, 865 attribute, 65 glue_spec, 91 attribute_list, 1 write, 14 user
-  _defined nodes
-     avail lists: 1:51,2:35938,3:292,4:380,5:523,6:59,7:6142,8:74,9:860,10:19,11:
-  416
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/t
-  exlive/2025/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/t
-  exlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf
-  ><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf
-  ><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/publi
-  c/tex-gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
-  haranoaji/HaranoAjiGothic-Medium.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2
-  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
-  Output written on input.pdf (6 pages, 409223 bytes).
+  (see the transcript file for additional information)
+   2726 words of node memory still in use:
+     17 hlist, 2 vlist, 6 rule, 6 glue, 5 kern, 1 sub_mlist, 1 glyph, 875 attribu
+  te, 65 glue_spec, 96 attribute_list, 1 write, 20 user_defined, 2 pdf_colorstack
+   nodes
+     avail lists: 1:45,2:70365,3:524,4:308,5:236,6:70,7:10361,8:77,9:4726,10:52,1
+  1:200
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/W
+  indows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/l
+  msans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/
+  texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm-mat
+  h/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gy
+  re/texgyretermes-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
+  lm-math/latinmodern-math.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dis
+  t/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/t
+  exmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (11 pages, 635215 bytes).
   Transcript written on input.log.
 [INFO] [makePDF] Rerun needed
   LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
@@ -1032,7 +1098,7 @@
 [INFO] [makePDF] LaTeX output
   This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
    restricted system commands enabled.
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.tex
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.tex
   LaTeX2e <2025-11-01>
   L3 programming layer <2026-01-19>
    (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
@@ -1372,7 +1438,7 @@
   (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
   (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux)
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
   (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
   [Loading MPS to PDF converter (version 2006.09.02).]
   ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -1387,36 +1453,56 @@
   *geometry* detected driver: luatex
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.toc)
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<c:/Users/Masay
-  a/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_flow_schematics.png>]
-  [2] [3] [4<c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_so
-  rption_curve.png>] [5] [6]
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux)
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+  
+  LaTeX Warning: Reference `fig:Water_pressure_impact' on page 3 undefined on inp
+  ut line 179.
+  
+  
+  LaTeX Warning: Reference `fig:bubble_detachment_mapping' on page 3 undefined on
+   input line 218.
+  
+  
+  Overfull \hbox (90.21516pt too wide) in paragraph at lines 218--220
+  []|\JY3/Meiryo(0)/m/n/10 オ |リ |フ |ィ |ス \TU/TeXGyreTermes(0)/m/n/10 Re
+   |\JY3/Meiryo(0)/m/n/10 数 |お |よ |び |無 |次 |元 |体 |積 |の |マ |
+  ッ |プ |を \TU/TeXGyreTermes(0)/m/n/10 Fig. []|\JY3/Meiryo(0)/m/n/10 に |
+  示 |す \TU/TeXGyreTermes(0)/m/n/10 [1][] [] 
+  [3<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Water_pressure
+  _impact.png>] [4<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/
+  bubble_detachment_mapping.png>] [5<c:/Users/Masaya/AppData/Local/Temp/media-af4
+  838f3da6278bf/img/Interphase_forces_in_bubble_flow.png>] [6]
+  
+  LaTeX Warning: Reference `eq:dC_dt' on page 7 undefined on input line 369.
+  
+  [7] [8] [9] [10] [11]
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
+  
+  LaTeX Warning: There were undefined references.
+  
   
   LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
   
   )
-   2613 words of node memory still in use:
-     11 hlist, 2 vlist, 5 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_
-  kern, 4 glyph, 865 attribute, 65 glue_spec, 91 attribute_list, 1 write, 14 user
-  _defined nodes
-     avail lists: 1:51,2:43837,3:340,4:470,5:503,6:74,7:7116,8:74,9:962,10:19,11:
-  578
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf>
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
-  r.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-
-  bold.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/openty
-  pe/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
-  haranoaji/HaranoAjiGothic-Medium.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2
-  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
-  Output written on input.pdf (6 pages, 410193 bytes).
+  (see the transcript file for additional information)
+   2721 words of node memory still in use:
+     17 hlist, 2 vlist, 6 rule, 6 glue, 5 kern, 1 sub_mlist, 1 glyph, 875 attribu
+  te, 64 glue_spec, 96 attribute_list, 1 write, 20 user_defined, 2 pdf_colorstack
+   nodes
+     avail lists: 1:53,2:76669,3:724,4:601,5:246,6:103,7:8300,8:77,9:3511,10:52,1
+  1:228
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/W
+  indows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-
+  gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gy
+  re/texgyretermes-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
+  lm-math/latinmodern-math.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dis
+  t/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/t
+  exmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (11 pages, 637685 bytes).
   Transcript written on input.log.
 [INFO] [makePDF] Rerun needed
   LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
@@ -1425,7 +1511,7 @@
 [INFO] [makePDF] LaTeX output
   This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
    restricted system commands enabled.
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.tex
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.tex
   LaTeX2e <2025-11-01>
   L3 programming layer <2026-01-19>
    (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
@@ -1765,7 +1851,7 @@
   (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
   (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux)
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
   (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
   [Loading MPS to PDF converter (version 2006.09.02).]
   ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -1780,32 +1866,53 @@
   *geometry* detected driver: luatex
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.toc)
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<c:/Users/Masay
-  a/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_flow_schematics.png>]
-  [2] [3] [4<c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_so
-  rption_curve.png>] [5] [6]
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux))
-   2613 words of node memory still in use:
-     11 hlist, 2 vlist, 5 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_
-  kern, 4 glyph, 865 attribute, 65 glue_spec, 91 attribute_list, 1 write, 14 user
-  _defined nodes
-     avail lists: 1:53,2:43837,3:340,4:466,5:503,6:74,7:7116,8:74,9:962,10:19,11:
-  578
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf>
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
-  r.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-
-  bold.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/openty
-  pe/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
-  haranoaji/HaranoAjiGothic-Medium.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2
-  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
-  Output written on input.pdf (6 pages, 410196 bytes).
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+  
+  LaTeX Warning: Reference `fig:Water_pressure_impact' on page 3 undefined on inp
+  ut line 179.
+  
+  
+  LaTeX Warning: Reference `fig:bubble_detachment_mapping' on page 3 undefined on
+   input line 218.
+  
+  
+  Overfull \hbox (90.21516pt too wide) in paragraph at lines 218--220
+  []|\JY3/Meiryo(0)/m/n/10 オ |リ |フ |ィ |ス \TU/TeXGyreTermes(0)/m/n/10 Re
+   |\JY3/Meiryo(0)/m/n/10 数 |お |よ |び |無 |次 |元 |体 |積 |の |マ |
+  ッ |プ |を \TU/TeXGyreTermes(0)/m/n/10 Fig. []|\JY3/Meiryo(0)/m/n/10 に |
+  示 |す \TU/TeXGyreTermes(0)/m/n/10 [1][] [] 
+  [3<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Water_pressure
+  _impact.png>] [4<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/
+  bubble_detachment_mapping.png>] [5<c:/Users/Masaya/AppData/Local/Temp/media-af4
+  838f3da6278bf/img/Interphase_forces_in_bubble_flow.png>] [6]
+  
+  LaTeX Warning: Reference `eq:dC_dt' on page 7 undefined on input line 369.
+  
+  [7] [8] [9] [10] [11]
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
+  
+  LaTeX Warning: There were undefined references.
+  
+  )
+  (see the transcript file for additional information)
+   2721 words of node memory still in use:
+     17 hlist, 2 vlist, 6 rule, 6 glue, 5 kern, 1 sub_mlist, 1 glyph, 875 attribu
+  te, 64 glue_spec, 96 attribute_list, 1 write, 20 user_defined, 2 pdf_colorstack
+   nodes
+     avail lists: 1:52,2:76681,3:724,4:604,5:246,6:102,7:8300,8:77,9:3511,10:52,1
+  1:228
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/W
+  indows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-
+  gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gy
+  re/texgyretermes-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
+  lm-math/latinmodern-math.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dis
+  t/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/t
+  exmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (11 pages, 637686 bytes).
   Transcript written on input.log.
 [INFO] [makePDF] Rerun needed
   TOC is present
@@ -1813,7 +1920,7 @@
 [INFO] [makePDF] LaTeX output
   This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
    restricted system commands enabled.
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.tex
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.tex
   LaTeX2e <2025-11-01>
   L3 programming layer <2026-01-19>
    (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsarticle.cls
@@ -2153,7 +2260,7 @@
   (c:/texlive/2025/texmf-dist/tex/latex/bookmark/bkm-pdftex.def))
   (c:/texlive/2025/texmf-dist/tex/latex/xurl/xurl.sty)
   (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-array.sty)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux)
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
   (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
   [Loading MPS to PDF converter (version 2006.09.02).]
   ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -2168,32 +2275,58 @@
   *geometry* detected driver: luatex
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg)
   (c:/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg)
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.toc)
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  Missing character: There is no 𝜔 (U+1D714) in font "name:TeX Gyre Termes:mod
-  e=base;script=latn;language=dflt;"!
-  [1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<c:/Users/Masay
-  a/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_flow_schematics.png>]
-  [2] [3] [4<c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/img/POL_so
-  rption_curve.png>] [5] [6]
-  (c:/Users/Masaya/AppData/Local/Temp/media-d065dc4c146111bc/input.aux))
-   2613 words of node memory still in use:
-     11 hlist, 2 vlist, 5 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_
-  kern, 4 glyph, 865 attribute, 65 glue_spec, 91 attribute_list, 1 write, 14 user
-  _defined nodes
-     avail lists: 1:53,2:43837,3:340,4:466,5:503,6:74,7:7116,8:74,9:962,10:19,11:
-  578
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm-math/latinmodern-math.otf>
-  <c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regula
-  r.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-
-  bold.otf><c:/Windows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/openty
-  pe/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/pu
-  blic/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
-  haranoaji/HaranoAjiGothic-Medium.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2
-  025/texmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
-  Output written on input.pdf (6 pages, 410196 bytes).
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.toc) [1{c:/tex
+  live/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
+  
+  LaTeX Warning: Reference `fig:Water_pressure_impact' on page 3 undefined on inp
+  ut line 179.
+  
+  
+  LaTeX Warning: Reference `fig:bubble_detachment_mapping' on page 3 undefined on
+   input line 218.
+  
+  
+  Overfull \hbox (90.21516pt too wide) in paragraph at lines 218--220
+  []|\JY3/Meiryo(0)/m/n/10 オ |リ |フ |ィ |ス \TU/TeXGyreTermes(0)/m/n/10 Re
+   |\JY3/Meiryo(0)/m/n/10 数 |お |よ |び |無 |次 |元 |体 |積 |の |マ |
+  ッ |プ |を \TU/TeXGyreTermes(0)/m/n/10 Fig. []|\JY3/Meiryo(0)/m/n/10 に |
+  示 |す \TU/TeXGyreTermes(0)/m/n/10 [1][] [] 
+  [3<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/Water_pressure
+  _impact.png>] [4<c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/img/
+  bubble_detachment_mapping.png>] [5<c:/Users/Masaya/AppData/Local/Temp/media-af4
+  838f3da6278bf/img/Interphase_forces_in_bubble_flow.png>] [6]
+  
+  LaTeX Warning: Reference `eq:dC_dt' on page 7 undefined on input line 369.
+  
+  [7] [8] [9] [10] [11]
+  (c:/Users/Masaya/AppData/Local/Temp/media-af4838f3da6278bf/input.aux)
+  
+  LaTeX Warning: There were undefined references.
+  
+  )
+  (see the transcript file for additional information)
+   2721 words of node memory still in use:
+     17 hlist, 2 vlist, 6 rule, 6 glue, 5 kern, 1 sub_mlist, 1 glyph, 875 attribu
+  te, 64 glue_spec, 96 attribute_list, 1 write, 20 user_defined, 2 pdf_colorstack
+   nodes
+     avail lists: 1:52,2:76681,3:724,4:604,5:246,6:102,7:8300,8:77,9:3511,10:52,1
+  1:228
+  <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/W
+  indows/Fonts/meiryob.ttc><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-
+  gyre/texgyretermes-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m-math/latinmodern-math.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/l
+  m/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/tex-gy
+  re/texgyretermes-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/
+  lm-math/latinmodern-math.otf><c:/Windows/Fonts/meiryo.ttc><c:/texlive/2025/texm
+  f-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dis
+  t/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/t
+  exmf-dist/fonts/opentype/public/tex-gyre/texgyretermes-regular.otf>
+  Output written on input.pdf (11 pages, 637686 bytes).
   Transcript written on input.log.
-[WARNING] Missing character: There is no 𝜔 (U+1D714) (U+1D714) in font "name:TeX Gyre Termes:mode
-[WARNING] Missing character: There is no 𝜔 (U+1D714) (U+1D714) in font "name:TeX Gyre Termes:mode
+[WARNING] [makePDF] LaTeX Warning: Reference `fig:Water_pressure_impact' on page
+  3 undefined on input line 179.
+[WARNING] [makePDF] LaTeX Warning: Reference `fig:bubble_detachment_mapping' on
+  page 3 undefined on input line 218.
+[WARNING] [makePDF] LaTeX Warning: Reference `eq:dC_dt' on page 7 undefined on
+  input line 369.
+[WARNING] [makePDF] LaTeX Warning: There were undefined references.

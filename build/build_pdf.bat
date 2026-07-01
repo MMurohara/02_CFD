@@ -5,8 +5,8 @@ REM buildフォルダにいる前提。mdのある親フォルダへ
 pushd "%~dp0"
 set "ROOT=.."
 
-set "IN=%ROOT%\PolyBlock.md"
-set "OUT=%ROOT%\PolyBlock.pdf"
+set "IN=%ROOT%\iBio_project.md"
+set "OUT=%ROOT%\iBio_project.pdf"
 set "HEADER=%~dp0header.tex"
 set "LOG=%~dp0build.log"
 
