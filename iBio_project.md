@@ -273,15 +273,15 @@ $${#eq:kL_higbie}
 このモデルでは$20 < Re \le 500$ 程度の範囲で利用可能である．また，特に気泡径が小さい（3.6mm以下）場合によく合うことが知られている．
 
 ## オーダー確認
-数値計算の妥当性を担簡単に確認するため，ここでオーダー計算をする．まず気泡レイノルズ数は
+数値計算の妥当性を簡単に確認するため，ここでオーダー計算をする．まず気泡レイノルズ数は
 
 $$
 \begin{aligned}
 Re &= \frac{\rho_{\mathrm{L}} |u_{\mathrm{G}} - u_{\mathrm{L}}| d}{\mu_{\mathrm{L}}}\\
-  &= \frac{1000 \times 0.1}{8.9 \times 10^{-4}} \\
-  & \approx 112360\\
+  &\approx \frac{1000 \times 0.1　\times 4 \times 10^{-3}}{8.9 \times 10^{-4}} \\
+  &\approx 449\\
 
-Re^{1/2} &\approx 335
+Re^{1/2} &\approx 21.2
 \end{aligned}
 $${#eq:Re_order}
 
@@ -290,9 +290,9 @@ $${#eq:Re_order}
 $$
 \begin{aligned}
 Sc &= \frac{\mu_{\mathrm{L}}}{\rho_{\mathrm{L}} D_{\mathrm{AB}}}\\
-  &= \frac{8.9 \times 10^{-4}}{1000 \times 2 \times 10^{-9}}\\
-  & \approx 445\\
-Sc^{1/3} &\approx 4.6
+  &\approx \frac{8.9 \times 10^{-4}}{1000 \times 2 \times 10^{-9}}\\
+  &\approx 445\\
+Sc^{1/3} &\approx 7.6
 \end{aligned}
 $${#eq:Sc_order}
 
@@ -301,18 +301,18 @@ $${#eq:Sc_order}
 $$
 \begin{aligned}
 Sh &= 2.0 + 0.6 Re^{1/2} Sc ^{1/3}\\
-  &\approx 2 + 335 \times 4.6\\
-  &= 1543
+  &\approx 2 + 0.6 \times 21.2 \times 7.6\\
+  &\approx 98.7
 \end{aligned}
 $${#eq:Sh_order}
 
-となる．以上より液間境界物質移動係数 $k_L$ は
+となる．以上より液側境界物質移動係数 $k_L$ は
 
 $$
 \begin{aligned}
 k_{\mathrm{L}} &= \frac{Sh D_{\mathrm{AB}}}{d}\\
-  &\approx \frac{150 \times 2 \times 10^{-9}}{4 \times 10^{-3}}\\
-  &= 75 \times 10^{-6}
+  &\approx \frac{98.7 \times 2 \times 10^{-9}}{4 \times 10^{-3}}\\
+  &\approx 4.9 \times 10^{-5}
 \end{aligned}
 $${#eq:kL_order}
 
@@ -322,23 +322,23 @@ $$
 \begin{aligned}
 a &= \frac{6 \varepsilon_{\mathrm{G}}}{d}\\
   &\approx \frac{6 \times 0.1}{4 \times 10^{-3}}\\
-  &= 150
+  &\approx 150
 \end{aligned}
 $${#eq:gas_surface_area_order}
 
-である．ここで水中の飽和酸素質量濃度は $10^{-6}$ のオーダーであるから，質量移動率$S_{\mathrm{O_2}}$は
+である．ここで水中の飽和酸素質量分率は $O(-6)$ から $O(-5)$ のオーダーである．下側として $O(-6)$ とすれば質量移動率$S_{\mathrm{O_2}}$は
 
 $$
 \begin{aligned}
 S_{\mathrm{O_2}} &=K_{\mathrm{L}}a \rho_{\mathrm{L}} \left(
   y_{\mathrm{L}}^{*} - y_{\mathrm{L}}
  \right)\\
-  &\approx 75 \times 10^{-6} \times 150 \times 1000 \times 10^{-6}\\
-  &\approx 8.4 \times 10^{-3} 
+  &\approx 4.9 \times 10^{-5} \times 150 \times 1000 \times 10^{-6}\\
+  &\approx 7.4 \times 10^{-6} 
 \end{aligned}
 $${#eq:m_dot_order}
 
-となる．ただし，ここで質量移動率は $\mathrm{[kg \; m^{-3} \; s^{-1}]}$ であるから，質量流量にするためにはセル体積を乗ずる必要がある．サンプル問題においては0.15x0.15x0.45 m3のドメインを29x29x80に分割しているので，1セルの体積は約 $1.5 \times 10^{-7} \; \mathrm{m^3}$ である．したがってセル当たりの質量流量は $O(-11)$ 程度のオーダーとなる．ただ，ここで気泡スリップ速度やボイド率を0.1程度と仮定しているため，もちろん気泡が少ない場所ではより低いオーダーとなる．
+となる．ただし，ここで質量移動率は $\mathrm{[kg \; m^{-3} \; s^{-1}]}$ であるから，質量流量にするためにはセル体積を乗ずる必要がある．サンプル問題においては0.15x0.15x0.45 m3のドメインを29x29x80に分割しているので，1セルの体積は約 $1.5 \times 10^{-7} \; \mathrm{m^3}$ である．したがってセル当たりの質量流量は $O(-12)$ から $O(-11)$ 程度のオーダーとなる．ただ，ここで気泡スリップ速度やボイド率を0.1程度と仮定しているため，もちろん気泡が少ない場所ではより低いオーダーとなる．
 
 
 ## 他成分の影響
