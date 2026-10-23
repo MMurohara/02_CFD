@@ -362,6 +362,8 @@ $${#eq:m_dot_order}
 ### Degassing条件
 Degassingの場合，気相のみ境界を通過し，液相についてはfree slip wallの扱いになる．気相の通過はドメインから消失として表現される．これは隣接セル内の気相を液体に置き換えるまたはシンク項（これよくわからない）に消失させるような計算を行う．つまり，各セル内の堆積計算で完結しており，ドメインは完全に閉じた状態になっている．そのため，逆流という概念が存在しない．
 
+## Interphase Species Mass Transferの設定
+気泡から液相への酸素の溶解などの物質輸送を取り扱う場合，From phaseとして液相，To phaseとして気相が適用される．これを逆にした場合，経験的にFluent自体がクラッシュする．詳細については[14.7.7. Interphase Species Mass Transfer](https://ansyshelp.ansys.com/public/account/secured?returnurl=/Views/Secured/corp/v261/en/flu_th/InterfaceSpeciesMassTransfer-3A72B96D.html)を参照のこと．
 
 ## ノードかセルか
 Fluentはセル中心型のソフトであり，直接的に解かれている値はセル中心である．ノードの値を出力することもできるが，この値はセル中心間の補完値である．そのため，場の勾配が強い場合（衝撃波や剥離など）はセル中心の値とノードの値とで大きな差が出ることがある．気泡塔程度であればどちらでも大きな問題ではなかろうと思われる．
